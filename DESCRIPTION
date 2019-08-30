@@ -3,7 +3,7 @@ Type: Package
 Title: Tidier regression with functional data
 Version: 0.1.0
 Date: 2019-08-30
-Authors@R: c(person("Julia", "Wrobel", email = "julia.wrobel@cuanschutz.edu", role = c("aut", "cre")),person("Fabian", "Scheipl", email = "fabian.scheipl@googlemail.com", role = c("aut")), person("Jeff", "Goldsmith", role = c("aut")))
+Authors@R: c(person("Julia", "Wrobel", email = "julia.wrobel@cuanschutz.edu", role = c("aut", "cre")),person("Fabian", "Scheipl", email = "fabian.scheipl@googlemail.com", role = c("aut")), person("Sara", "Kim", email = "gk2501@cumc.columbia.edu", role = c("aut")),person("Jeff", "Goldsmith", role = c("aut")))
 Description: Interfaces key functions from the refund package with framework from the tidyfun package to provide a tidier interface to FPCA and regression for functional data.
 Depends: R (>= 3.4)
 Imports:
