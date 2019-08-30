@@ -163,7 +163,6 @@ ydata$.value <- unlist(tapply(ydata$.index,
 Fit.MM = fpca.sc(ydata=ydata, var = TRUE, simul = FALSE)
 
 }
-
 }
 \references{
 Di, C., Crainiceanu, C., Caffo, B., and Punjabi, N. (2009).

@@ -152,7 +152,7 @@
 ##' Fit.MM = fpca.sc(ydata=ydata, var = TRUE, simul = FALSE)
 ##'
 ##' }
-##'
+##' @importFrom stats predict quantile weighted.mean
 ##' @importFrom Matrix nearPD Matrix t as.matrix
 ##' @importFrom mgcv gam predict.gam
 ##' @importFrom gamm4 gamm4
