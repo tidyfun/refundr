@@ -263,8 +263,7 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     }
   }
 
-  ret.objects = c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc",
-    "argvals")
+  ret.objects = c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc")
   if (var) {
     ret.objects = c(ret.objects, "sigma2", "diag.var", "VarMats")
     if (simul)
