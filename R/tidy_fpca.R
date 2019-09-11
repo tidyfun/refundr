@@ -9,7 +9,7 @@
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
 ##' given, this overrides \code{pve}).
-##' @param method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
+##' @param fpca_method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
 ##' @param ... optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.
 ##' @return
 ##'
@@ -29,7 +29,7 @@
 ##' @importFrom tidyr spread
 ##' @export
 
-tidy_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
+tidy_fpca <- function(Y, data, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
 
   # do different default method based on the class of the tfd vector (regular or irregular)
   # potentially allow data = NULL, so just a tfd vector can be used in the Y argument?
@@ -44,7 +44,10 @@ tidy_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
     as.matrix()
 
 
+  # eval(paste0("fpca_", fpca_method))
+  # what is the best way to call whatever function you want? Im trying to avoid using if/else
   results <- fpca_sc(Y = Y_mat, pve = pve, npc = npc, ...)
 
+  # eventually return a better formatted object that is consistent across choice of fpca method
   return(results)
 }

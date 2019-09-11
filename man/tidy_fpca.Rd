@@ -4,7 +4,7 @@
 \alias{tidy_fpca}
 \title{Tidy interface to refund fpca functions}
 \usage{
-tidy_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
+tidy_fpca(Y, data, pve = 0.99, npc = NULL, fpca_method = NULL, ...)
 }
 \arguments{
 \item{Y}{a \code{tfd} data object that exists as a column in the dataframe \code{data} (regular vs. irregular may be assigned differnet defaults).}
@@ -17,7 +17,7 @@ principal components.}
 \item{npc}{prespecified value for the number of principal components (if
 given, this overrides \code{pve}).}
 
-\item{method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
+\item{fpca_method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
 
 \item{...}{optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.}
 }
