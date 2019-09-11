@@ -19,3 +19,21 @@ The goal of **`refunder`** is to interface **`refund`** and
 ``` r
 devtools::install_github("tidyfun/refunder")
 ```
+
+## `tidy_fpca()`
+
+The `tidy_fpca()` function peforms `fpca` using functions from the
+`refund` package. The input is a dataframe with `tfd` columns.
+
+Below are examples using the dti and cd4 datasets.
+
+``` r
+library(tidyfun)
+library(refunder)
+
+data(dti_df)
+dti_fpca = tidy_fpca(cca, dti_df)
+
+cd4_df = tibble(cd4_count = tfd(refund::cd4))
+results = tidy_fpca(cd4_count, cd4_df, npc = 4)
+```

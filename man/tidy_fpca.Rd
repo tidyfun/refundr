@@ -7,7 +7,7 @@
 tidy_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 }
 \arguments{
-\item{Y}{a \code{tfd} vector of data that specifies a column in the dataframe \code{data} (regular vs. irregular may be assigned differnet defaults).}
+\item{Y}{a \code{tfd} data object that exists as a column in the dataframe \code{data} (regular vs. irregular may be assigned differnet defaults).}
 
 \item{data}{a \code{tidyfun} dataframe containing a \code{tfd} vector of data.}
 
@@ -31,9 +31,8 @@ Allows calls to \code{fpca.sc}, \code{fpca.face}, and \code{fpca.ssvd} as implem
 \dontrun{
 library(tidyfun)
 library(refunder)
-
 data(dti_df)
-tidy_fpca(cca, dti_df)
+fpca_results = tidy_fpca(cca, dti_df)
 }
 
 }

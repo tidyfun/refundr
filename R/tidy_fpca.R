@@ -3,7 +3,7 @@
 ##' Allows calls to \code{fpca.sc}, \code{fpca.face}, and \code{fpca.ssvd} as implemented in the \code{refund} package. Tidy functional data objects are input and tidy objects are returned as well.
 ##'
 ##'
-##' @param Y a \code{tfd} vector of data that specifies a column in the dataframe \code{data} (regular vs. irregular may be assigned differnet defaults).
+##' @param Y a \code{tfd} data object that exists as a column in the dataframe \code{data} (regular vs. irregular may be assigned differnet defaults).
 ##' @param data a \code{tidyfun} dataframe containing a \code{tfd} vector of data.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
@@ -11,7 +11,6 @@
 ##' given, this overrides \code{pve}).
 ##' @param method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
 ##' @param ... optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.
-
 ##' @return
 ##'
 ##' @author Julia, Jeff, Fabian (plus any authors of the original refund code)
@@ -22,9 +21,8 @@
 ##' \dontrun{
 ##' library(tidyfun)
 ##' library(refunder)
-##'
 ##' data(dti_df)
-##' tidy_fpca(cca, dti_df)
+##' fpca_results = tidy_fpca(cca, dti_df)
 ##' }
 ##'
 ##' @importFrom dplyr "%>%" enquo pull select
@@ -33,12 +31,13 @@
 
 tidy_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
 
-  Y = enquo(Y)
+  # do different default method based on the class of the tfd vector (regular or irregular)
+  # potentially allow data = NULL, so just a tfd vector can be used in the Y argument?
+  Y <- enquo(Y)
 
-  tfd = data %>%
-    pull(!! Y)
 
-  Y_mat = tfd %>%
+  Y_mat <- data %>%
+    pull(!! Y) %>%
     as.data.frame() %>%
     spread(key = arg, value = value) %>%
     select(-id) %>%
