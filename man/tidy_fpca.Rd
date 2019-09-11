@@ -29,7 +29,6 @@ Allows calls to \code{fpca.sc}, \code{fpca.face}, and \code{fpca.ssvd} as implem
 }
 \examples{
 \dontrun{
-library(tidyfun)
 library(refunder)
 data(dti_df)
 fpca_results = tidy_fpca(cca, dti_df)

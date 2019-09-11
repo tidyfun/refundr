@@ -19,7 +19,6 @@
 ##'
 ##' @examples
 ##' \dontrun{
-##' library(tidyfun)
 ##' library(refunder)
 ##' data(dti_df)
 ##' fpca_results = tidy_fpca(cca, dti_df)
