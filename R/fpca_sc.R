@@ -156,7 +156,7 @@
 ##' @importFrom Matrix nearPD Matrix t as.matrix
 ##' @importFrom mgcv gam predict.gam
 ##' @importFrom gamm4 gamm4
-fpca.sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, random.int = FALSE,
+fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, random.int = FALSE,
   nbasis = 10, pve = 0.99, npc = NULL, var = FALSE, simul = FALSE, sim.alpha = 0.95,
   useSymm = FALSE, makePD = FALSE, center = TRUE, cov.est.method = 2, integration = "trapezoidal") {
 
