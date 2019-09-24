@@ -67,15 +67,6 @@ A list with components
 \item \code{efunctions} - matrix of eigenvectors
 \item \code{evalues} - vector of eigenvalues
 }
-if \code{var == TRUE} additional components are returned
-\enumerate{
-\item \code{sigma2} - estimate of the error variance
-\item \code{VarMats} - list of covariance function estimate for each
-subject
-\item \code{diag.var} - matrix containing the diagonals of each matrix in
-\item \code{crit.val} - list of estimated quantiles; only returned if
-\code{simul == TRUE}
-}
 }
 \description{
 A fast implementation of the sandwich smoother (Xiao et al., 2013)

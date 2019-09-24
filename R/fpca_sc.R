@@ -55,8 +55,7 @@
 ##' \code{'trapezoidal'} is currently supported.
 ##' @return An object of class \code{fpca} containing:
 ##' \item{Yhat}{FPC approximation (projection onto leading components)
-##' of \code{Y.pred} if specified, or else of \code{Y}.}
-##' \item{Y}{the observed data}\item{scores}{\eqn{n
+##' of \code{Y}.}\item{scores}{\eqn{n
 ##' \times npc} matrix of estimated FPC scores.} \item{mu}{estimated mean
 ##' function (or a vector of zeroes if \code{center==FALSE}).} \item{efunctions
 ##' }{\eqn{d \times npc} matrix of estimated eigenfunctions of the functional
@@ -65,11 +64,7 @@
 ##' \item{npc }{number of FPCs: either the supplied \code{npc}, or the minimum
 ##' number of basis functions needed to explain proportion \code{pve} of the
 ##' variance in the observed curves.} \item{argvals}{argument values of
-##' eigenfunction evaluations} \item{sigma2}{estimated measurement error
-##' variance.} \item{diag.var}{diagonal elements of the covariance matrices for
-##' each estimated curve.} \item{VarMats}{a list containing the estimated
-##' covariance matrices for each curve in \code{Y}.} \item{crit.val}{estimated
-##' critical values for constructing simultaneous confidence intervals.}
+##' eigenfunction evaluations}
 ##' @author Jeff Goldsmith \email{jeff.goldsmith@@columbia.edu}, Sonja Greven
 ##' \email{sonja.greven@@stat.uni-muenchen.de}, Lan Huo
 ##' \email{Lan.Huo@@nyumc.org}, Lei Huang \email{huangracer@@gmail.com}, and
@@ -249,7 +244,7 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     Yhat[i.subj, ] = t(as.matrix(mu)) + scores[i.subj, ] %*% t(efunctions)
   }
 
-  ret.objects = c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects = c("Yhat", "scores", "mu", "efunctions", "evalues", "npc")
 
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects

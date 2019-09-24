@@ -58,15 +58,6 @@
 #' \item \code{efunctions} - matrix of eigenvectors
 #' \item \code{evalues} - vector of eigenvalues
 #' }
-#' if \code{var == TRUE} additional components are returned
-#' \enumerate{
-#' \item \code{sigma2} - estimate of the error variance
-#' \item \code{VarMats} - list of covariance function estimate for each
-#' subject
-#' \item \code{diag.var} - matrix containing the diagonals of each matrix in
-#' \item \code{crit.val} - list of estimated quantiles; only returned if
-#' \code{simul == TRUE}
-#' }
 #' @author Luo Xiao
 #' @references Xiao, L., Li, Y., and Ruppert, D. (2013).
 #' Fast bivariate \emph{P}-splines: the sandwich smoother,
@@ -80,8 +71,7 @@
 #' @importFrom Matrix as.matrix
 #' @importFrom MASS mvrnorm
 
-fpca_face <-
-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
+fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
          center=TRUE,knots=35,p=3,m=2,lambda=NULL,alpha = 1,
          search.grid=TRUE,search.length=100,
          method="L-BFGS-B", lower=-20,upper=20, control=NULL){
@@ -294,7 +284,7 @@ function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
   efunctions <- eigenvectors[,1:N]
   evalues <- J*eigenvalues[1:N]
 
-  ret.objects <- c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects <- c("Yhat", "scores", "mu", "efunctions", "evalues", "npc")
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
   class(ret) = "fpca"

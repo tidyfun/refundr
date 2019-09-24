@@ -12,8 +12,6 @@
 #'points.
 #'
 #'@param Y data matrix (rows: observations; columns: grid of eval. points)
-#'@param ydata a data frame \code{ydata} representing
-#'  irregularly observed functions. NOT IMPLEMENTED for this method.
 #'@param argvals the argument values of the function evaluations in \code{Y},
 #'  defaults to a equidistant grid from 0 to 1. See Details.
 #'@param npc how many smooth SVs to try to extract, if \code{NA} (the default)
@@ -46,7 +44,7 @@
 #'  \url{http://arxiv.org/abs/1305.5870}.
 
 
-fpca_ssvd <- function(Y=NULL, ydata = NULL, argvals = NULL, npc = NA, center = TRUE, maxiter = 15,
+fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter = 15,
   tol = 1e-4, diffpen = 3, gridsearch = TRUE, alphagrid = 1.5^(-20:40),
   lower.alpha = 1e-5, upper.alpha = 1e7, verbose = FALSE, integration = "trapezoidal"){
 
@@ -54,10 +52,7 @@ fpca_ssvd <- function(Y=NULL, ydata = NULL, argvals = NULL, npc = NA, center = T
   if(any(is.na(Y))) stop("No missing values in <Y> allowed.")
   m <- ncol(Y)
   n <- nrow(Y)
-  if(!is.null(ydata)) {
-    stop(paste("<ydata> argument for irregular data is not supported,",
-        "please use fpca.sc instead."))
-  }
+
   irregular <- FALSE
   if(!is.null(argvals)) {
     stopifnot(is.numeric(argvals),
@@ -209,7 +204,6 @@ fpca_ssvd <- function(Y=NULL, ydata = NULL, argvals = NULL, npc = NA, center = T
 
   ret = list(
     Yhat = t(meanY + t(scores%*%t(V))),
-    Y = Yorig,
     scores = scores,
     mu = meanY,
     efunctions = V,
