@@ -30,7 +30,7 @@ Default call for irregular data is to \code{fpca_sc}, this function processes th
 \dontrun{
 library(refunder)
 data(dti_df)
-fpca_results = rfr_fpca(Y = dti_df$cca)
+fpca_results <- rfr_fpca(Y = dti_df$cca)
 }
 
 }

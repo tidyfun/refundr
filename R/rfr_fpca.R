@@ -20,7 +20,10 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(dti_df)
-##' fpca_results = rfr_fpca(Y = dti_df$cca)
+##' fpca_results <- rfr_fpca(Y = dti_df$cca)
+##'
+##' data(chf_df)
+##' fpca_results <- rfr_fpca(Y = chf_df$activity)
 ##' }
 ##'
 ##' @export

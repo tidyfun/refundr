@@ -19,7 +19,7 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(dti_df)
-##' fpca_results = rfr_fpca(Y = dti_df$cca)
+##' fpca_results <- rfr_fpca(Y = dti_df$cca)
 ##' }
 ##'
 ##' @importFrom tidyr spread

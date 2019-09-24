@@ -30,7 +30,7 @@ Default call for regular data is to \code{fpca_face}, this function processes th
 \dontrun{
 library(refunder)
 data(chf_df)
-fpca_results = rfr_fpca(Y = chf_df$activity)
+fpca_results <- rfr_fpca(Y = chf_df$activity)
 }
 }
 \seealso{

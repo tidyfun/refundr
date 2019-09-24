@@ -19,7 +19,7 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(chf_df)
-##' fpca_results = rfr_fpca(Y = chf_df$activity)
+##' fpca_results <- rfr_fpca(Y = chf_df$activity)
 ##' }
 ##' @importFrom tidyr spread
 ##' @importFrom splines spline.des

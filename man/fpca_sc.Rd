@@ -6,9 +6,8 @@
 \usage{
 fpca_sc(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL,
   random.int = FALSE, nbasis = 10, pve = 0.99, npc = NULL,
-  var = FALSE, simul = FALSE, sim.alpha = 0.95, useSymm = FALSE,
-  makePD = FALSE, center = TRUE, cov.est.method = 2,
-  integration = "trapezoidal")
+  useSymm = FALSE, makePD = FALSE, center = TRUE,
+  cov.est.method = 2, integration = "trapezoidal")
 }
 \arguments{
 \item{Y, ydata}{the user must supply either \code{Y}, a matrix of functions
@@ -34,14 +33,6 @@ principal components.}
 
 \item{npc}{prespecified value for the number of principal components (if
 given, this overrides \code{pve}).}
-
-\item{var}{\code{TRUE} or \code{FALSE} indicating whether model-based
-estimates for the variance of FPCA expansions should be computed.}
-
-\item{simul}{logical: should critical values be estimated for simultaneous
-confidence intervals?}
-
-\item{sim.alpha}{1 - coverage probability of the simultaneous intervals.}
 
 \item{useSymm}{logical, indicating whether to smooth only the upper
 triangular part of the naive covariance (when \code{cov.est.method==2}).

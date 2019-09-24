@@ -38,11 +38,6 @@
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
 ##' given, this overrides \code{pve}).
-##' @param var \code{TRUE} or \code{FALSE} indicating whether model-based
-##' estimates for the variance of FPCA expansions should be computed.
-##' @param simul logical: should critical values be estimated for simultaneous
-##' confidence intervals?
-##' @param sim.alpha 1 - coverage probability of the simultaneous intervals.
 ##' @param useSymm logical, indicating whether to smooth only the upper
 ##' triangular part of the naive covariance (when \code{cov.est.method==2}).
 ##' This can save computation time for large data sets, and allows for
@@ -99,7 +94,7 @@
 ##' @importFrom mgcv gam predict.gam
 ##' @importFrom gamm4 gamm4
 fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, random.int = FALSE,
-  nbasis = 10, pve = 0.99, npc = NULL, var = FALSE, simul = FALSE, sim.alpha = 0.95,
+  nbasis = 10, pve = 0.99, npc = NULL,
   useSymm = FALSE, makePD = FALSE, center = TRUE, cov.est.method = 2, integration = "trapezoidal") {
 
   stopifnot((!is.null(Y) && is.null(ydata)) || (is.null(Y) && !is.null(ydata)))
@@ -252,23 +247,10 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     ZtZ_sD.inv = solve(crossprod(Zcur) + sigma2 * D.inv)
     scores[i.subj, ] = ZtZ_sD.inv %*% t(Zcur) %*% (Y.tilde[i.subj, obs.points])
     Yhat[i.subj, ] = t(as.matrix(mu)) + scores[i.subj, ] %*% t(efunctions)
-    if (var) {
-      VarMats[[i.subj]] = sigma2 * Z %*% ZtZ_sD.inv %*% t(Z)
-      diag.var[i.subj, ] = diag(VarMats[[i.subj]])
-      if (simul & sigma2 != 0) {
-        norm.samp = mvrnorm(2500, mu = rep(0, D), Sigma = VarMats[[i.subj]])/matrix(sqrt(diag(VarMats[[i.subj]])),
-          nrow = 2500, ncol = D, byrow = TRUE)
-        crit.val[i.subj] = quantile(apply(abs(norm.samp), 1, max), sim.alpha)
-      }
-    }
   }
 
   ret.objects = c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc")
-  if (var) {
-    ret.objects = c(ret.objects, "sigma2", "diag.var", "VarMats")
-    if (simul)
-      ret.objects = c(ret.objects, "crit.val")
-  }
+
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
   class(ret) = "fpca"
