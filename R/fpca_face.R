@@ -11,12 +11,6 @@
 #' @param argvals numeric; function argument.
 #' @param pve proportion of variance explained: used to choose the number of
 #' principal components.
-#' @param var logical; should an estimate of standard error be returned?
-#' @param simul logical; if \code{TRUE} curves will we simulated using
-#' Monte Carlo to obtain an estimate of the \code{sim.alpha} quantile at each
-#' \code{argval}; ignored if \code{var == FALSE}
-#' @param sim.alpha numeric; if \code{simul==TRUE}, quantile to estimate at
-#' each \code{argval}; ignored if \code{var == FALSE}
 #' @param npc how many smooth SVs to try to extract, if \code{NA} (the
 #' default) the hard thresholding rule of Gavish and Donoho (2014) is used (see
 #' Details, References).
@@ -88,7 +82,6 @@
 
 fpca_face <-
 function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
-         var = FALSE, simul = FALSE, sim.alpha = 0.95,
          center=TRUE,knots=35,p=3,m=2,lambda=NULL,alpha = 1,
          search.grid=TRUE,search.length=100,
          method="L-BFGS-B", lower=-20,upper=20, control=NULL){
@@ -302,27 +295,6 @@ function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
   evalues <- J*eigenvalues[1:N]
 
   ret.objects <- c("Yhat", "Y", "scores", "mu", "efunctions", "evalues", "npc")
-  if(var) {
-    sigma2 = sigmahat2
-    VarMats = vector("list",I)
-    diag.var = matrix(NA, nrow=I,ncol=J)
-    crit.val = rep(0,I)
-    for(i.subj in 1:I){
-      temp = sigma2*eigenvectors%*%solve(t(eigenvectors)%*%eigenvectors + sigma2*diag(eigenvalues))%*%t(eigenvectors)
-      VarMats[[i.subj]] = temp
-      diag.var[i.subj,] = diag(temp)
-      if (simul & sigma2 != 0) {
-        norm.samp = mvrnorm(2500, mu = rep(0, J), Sigma = VarMats[[i.subj]])/matrix(sqrt(diag(VarMats[[i.subj]])),
-                                                  nrow = 2500, ncol = J, byrow = TRUE)
-        crit.val[i.subj] = quantile(apply(abs(norm.samp), 1, max), sim.alpha)
-      }
-    }
-    ret.objects = c(ret.objects,"sigma2","diag.var","VarMats")
-    if (simul) {
-      #require(MASS)
-      ret.objects = c(ret.objects, "crit.val")
-    }
-  }
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
   class(ret) = "fpca"

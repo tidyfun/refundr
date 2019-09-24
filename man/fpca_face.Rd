@@ -5,9 +5,8 @@
 \title{Functional principal component analysis with fast covariance estimation}
 \usage{
 fpca_face(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL,
-  pve = 0.99, npc = NULL, var = FALSE, simul = FALSE,
-  sim.alpha = 0.95, center = TRUE, knots = 35, p = 3, m = 2,
-  lambda = NULL, alpha = 1, search.grid = TRUE,
+  pve = 0.99, npc = NULL, center = TRUE, knots = 35, p = 3,
+  m = 2, lambda = NULL, alpha = 1, search.grid = TRUE,
   search.length = 100, method = "L-BFGS-B", lower = -20,
   upper = 20, control = NULL)
 }
@@ -27,15 +26,6 @@ principal components.}
 \item{npc}{how many smooth SVs to try to extract, if \code{NA} (the
 default) the hard thresholding rule of Gavish and Donoho (2014) is used (see
 Details, References).}
-
-\item{var}{logical; should an estimate of standard error be returned?}
-
-\item{simul}{logical; if \code{TRUE} curves will we simulated using
-Monte Carlo to obtain an estimate of the \code{sim.alpha} quantile at each
-\code{argval}; ignored if \code{var == FALSE}}
-
-\item{sim.alpha}{numeric; if \code{simul==TRUE}, quantile to estimate at
-each \code{argval}; ignored if \code{var == FALSE}}
 
 \item{center}{logical; center \code{Y} so that its column-means are 0? Defaults to
 \code{TRUE}}
