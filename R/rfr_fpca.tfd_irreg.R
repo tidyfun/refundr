@@ -22,7 +22,15 @@
 ##' fpca_results = rfr_fpca(Y = dti_df$cca)
 ##' }
 ##'
+##' @importFrom tidyr spread
 ##' @export
 rfr_fpca.tfd_irreg <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
-  print("irreg")
+
+  ## eventually change to as.matrix.td() call from tidyfun package
+  Y_mat <- as.matrix(spread(as.data.frame(Y), key = arg, value = value)[,-1])
+
+  results <- fpca_sc(Y = Y_mat, pve = pve, npc = npc, ...)
+
+  # eventually return a better formatted object that is consistent across choice of fpca method
+  return(results)
 }

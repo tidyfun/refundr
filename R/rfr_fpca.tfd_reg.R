@@ -1,6 +1,6 @@
 ##' Tidy interface for fpca with regularly-spaced functional data
 ##'
-##' Default call for regular data is to \code{fpca_ssvd}, this function processes the data and provides a wrapper to \code{fpca_ssvd}.
+##' Default call for regular data is to \code{fpca_face}, this function processes the data and provides a wrapper to \code{fpca_face}.
 ##'
 ##'
 ##' @param Y a \code{tfd} data vector.
@@ -21,8 +21,14 @@
 ##' data(chf_df)
 ##' fpca_results = rfr_fpca(Y = chf_df$activity)
 ##' }
-##'
+##' @importFrom tidyr spread
+##' @importFrom splines spline.des
 ##' @export
 rfr_fpca.tfd_reg <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
-  print("reg")
+
+  ## eventually change to as.matrix.td() call from tidyfun package
+  Y_mat <- as.matrix(spread(as.data.frame(Y), key = arg, value = value)[,-1])
+
+  results <- fpca_face(Y = Y_mat, pve = pve, npc = npc, ...)
+  return(results)
 }

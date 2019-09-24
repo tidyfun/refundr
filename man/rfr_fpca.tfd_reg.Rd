@@ -24,7 +24,7 @@ given, this overrides \code{pve}).}
 
 }
 \description{
-Default call for regular data is to \code{fpca_ssvd}, this function processes the data and provides a wrapper to \code{fpca_ssvd}.
+Default call for regular data is to \code{fpca_face}, this function processes the data and provides a wrapper to \code{fpca_face}.
 }
 \examples{
 \dontrun{
@@ -32,7 +32,6 @@ library(refunder)
 data(chf_df)
 fpca_results = rfr_fpca(Y = chf_df$activity)
 }
-
 }
 \seealso{
 \code{\link{rfr_fpca}}, \code{\link{rfr_fpca.tfd_irreg}}
