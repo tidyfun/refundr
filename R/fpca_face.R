@@ -284,7 +284,7 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
   efunctions <- eigenvectors[,1:N]
   evalues <- J*eigenvalues[1:N]
 
-  ret.objects <- c("Yhat", "scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects <- c("scores", "mu", "efunctions", "evalues", "npc")
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
   class(ret) = "fpca"

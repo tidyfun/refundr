@@ -30,5 +30,8 @@ rfr_fpca.tfd_reg <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...)
   Y_mat <- as.matrix(spread(as.data.frame(Y), key = arg, value = value)[,-1])
 
   results <- fpca_face(Y = Y_mat, pve = pve, npc = npc, ...)
+
+  # need to extract `arg`
+  #tidy_fpca_obj(fpca_obj, Y)
   return(results)
 }

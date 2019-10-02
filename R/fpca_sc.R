@@ -244,7 +244,7 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     Yhat[i.subj, ] = t(as.matrix(mu)) + scores[i.subj, ] %*% t(efunctions)
   }
 
-  ret.objects = c("Yhat", "scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects = c("scores", "mu", "efunctions", "evalues", "npc")
 
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects

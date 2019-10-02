@@ -203,7 +203,7 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
   scores <- U%*%(d * diag(length(d)))
 
   ret = list(
-    Yhat = t(meanY + t(scores%*%t(V))),
+    #Yhat = t(meanY + t(scores%*%t(V))),
     scores = scores,
     mu = meanY,
     efunctions = V,
