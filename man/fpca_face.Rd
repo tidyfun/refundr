@@ -4,16 +4,15 @@
 \alias{fpca_face}
 \title{Functional principal component analysis with fast covariance estimation}
 \usage{
-fpca_face(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL,
-  pve = 0.99, npc = NULL, center = TRUE, knots = 35, p = 3,
-  m = 2, lambda = NULL, alpha = 1, search.grid = TRUE,
+fpca_face(data = NULL, Y.pred = NULL, argvals = NULL, pve = 0.99,
+  npc = NULL, center = TRUE, knots = 35, p = 3, m = 2,
+  lambda = NULL, alpha = 1, search.grid = TRUE,
   search.length = 100, method = "L-BFGS-B", lower = -20,
   upper = 20, control = NULL)
 }
 \arguments{
-\item{Y, ydata}{the user must supply either \code{Y}, a matrix of functions
-observed on a regular grid, or a data frame \code{ydata} representing
-irregularly observed functions. See Details.}
+\item{data, }{the user must supply \code{data}, a matrix of functions
+observed on a regular grid}
 
 \item{Y.pred}{if desired, a matrix of functions to be approximated using
 the FPC decomposition.}
@@ -27,7 +26,7 @@ principal components.}
 default) the hard thresholding rule of Gavish and Donoho (2014) is used (see
 Details, References).}
 
-\item{center}{logical; center \code{Y} so that its column-means are 0? Defaults to
+\item{center}{logical; center \code{data} so that its column-means are 0? Defaults to
 \code{TRUE}}
 
 \item{knots}{number of knots to use or the vectors of knots; defaults to 35}
@@ -60,7 +59,7 @@ Otherwise, \code{\link[stats]{optim}} is used}
 A list with components
 \enumerate{
 \item \code{Yhat} - If \code{Y.pred} is specified, the smooth version of
-\code{Y.pred}.   Otherwise, if \code{Y.pred=NULL}, the smooth version of \code{Y}.
+\code{Y.pred}.   Otherwise, if \code{Y.pred=NULL}, the smooth version of \code{data}.
 \item \code{scores} - matrix of scores
 \item \code{mu} - mean function
 \item \code{npc} - number of principal components

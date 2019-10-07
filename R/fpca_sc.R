@@ -14,19 +14,10 @@
 ##' \code{fpca.sc} uses penalized splines to smooth the covariance function, as
 ##' developed by Di et al. (2009) and Goldsmith et al. (2013).
 ##'
-##' The functional data must be supplied as either \itemize{ \item an \eqn{n
-##' \times d} matrix \code{Y}, each row of which is one functional observation,
-##' with missing values allowed; or \item a data frame \code{ydata}, with
-##' columns \code{'.id'} (which curve the point belongs to, say \eqn{i}),
-##' \code{'.index'} (function argument such as time point \eqn{t}), and
-##' \code{'.value'} (observed function value \eqn{Y_i(t)}).}
-##'
-##' @param Y,ydata the user must supply either \code{Y}, a matrix of functions
-##' observed on a regular grid, or a data frame \code{ydata} representing
-##' irregularly observed functions. See Details.
+##' @param data, a dataframe with arguments arg, value, id
 ##' @param Y.pred if desired, a matrix of functions to be approximated using
 ##' the FPC decomposition.
-##' @param argvals the argument values of the function evaluations in \code{Y},
+##' @param argvals the argument values of the function evaluations in \code{data},
 #'  defaults to a equidistant grid from 0 to 1.
 ##' @param random.int If \code{TRUE}, the mean is estimated by
 ##' \code{\link[gamm4]{gamm4}} with random intercepts. If \code{FALSE} (the
@@ -45,7 +36,7 @@
 ##' @param makePD logical: should positive definiteness be enforced for the
 ##' covariance surface estimate?
 ##' @param center logical: should an estimated mean function be subtracted from
-##' \code{Y}? Set to \code{FALSE} if you have already demeaned the data using
+##' \code{data}? Set to \code{FALSE} if you have already demeaned the data using
 ##' your favorite mean function estimate.
 ##' @param cov.est.method covariance estimation method. If set to \code{1}, a
 ##' one-step method that applies a bivariate smooth to the \eqn{y(s_1)y(s_2)}
@@ -55,7 +46,7 @@
 ##' \code{'trapezoidal'} is currently supported.
 ##' @return An object of class \code{fpca} containing:
 ##' \item{Yhat}{FPC approximation (projection onto leading components)
-##' of \code{Y}.}\item{scores}{\eqn{n
+##' of \code{data}.}\item{scores}{\eqn{n
 ##' \times npc} matrix of estimated FPC scores.} \item{mu}{estimated mean
 ##' function (or a vector of zeroes if \code{center==FALSE}).} \item{efunctions
 ##' }{\eqn{d \times npc} matrix of estimated eigenfunctions of the functional
@@ -88,26 +79,17 @@
 ##' @importFrom Matrix nearPD Matrix t as.matrix
 ##' @importFrom mgcv gam predict.gam
 ##' @importFrom gamm4 gamm4
-fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, random.int = FALSE,
+##' @export
+fpca_sc <- function(data,  Y.pred = NULL, argvals = NULL, random.int = FALSE,
   nbasis = 10, pve = 0.99, npc = NULL,
   useSymm = FALSE, makePD = FALSE, center = TRUE, cov.est.method = 2, integration = "trapezoidal") {
 
-  stopifnot((!is.null(Y) && is.null(ydata)) || (is.null(Y) && !is.null(ydata)))
-
-  # if data.frame version of ydata is provided
-  sparseOrNongrid <- !is.null(ydata)
-  if (sparseOrNongrid) {
-    stopifnot(ncol(ydata) == 3)
-    stopifnot(c(".id", ".index", ".value") == colnames(ydata))
-    stopifnot(is.null(argvals))
-    Y = irreg2mat(ydata)
-    argvals = sort(unique(ydata$.index))
-  }
-
+  #data <- tidyfun:::df_2_mat(data) ## calls complete.cases on the data, only use this once fixed regular function
+  data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
   if (is.null(Y.pred))
-    Y.pred = Y
-  D = NCOL(Y)
-  I = NROW(Y)
+    Y.pred = data
+  D = NCOL(data)
+  I = NROW(data)
   I.pred = NROW(Y.pred)
 
   if (is.null(argvals))
@@ -118,14 +100,14 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
 
   if (center) {
     if (random.int) {
-      ri_data <- data.frame(y = as.vector(Y), d.vec = d.vec, id = factor(id))
+      ri_data <- data.frame(y = as.vector(data), d.vec = d.vec, id = factor(id))
       gam0 = gamm4(y ~ s(d.vec, k = nbasis), random = ~(1 | id), data = ri_data)$gam
       rm(ri_data)
-    } else gam0 = gam(as.vector(Y) ~ s(d.vec, k = nbasis))
+    } else gam0 = gam(as.vector(data) ~ s(d.vec, k = nbasis))
     mu = predict(gam0, newdata = data.frame(d.vec = argvals))
-    Y.tilde = Y - matrix(mu, I, D, byrow = TRUE)
+    data.tilde = data - matrix(mu, I, D, byrow = TRUE)
   } else {
-    Y.tilde = Y
+    data.tilde = data
     mu = rep(0, D)
   }
 
@@ -133,10 +115,10 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     # smooth raw covariance estimate
     cov.sum = cov.count = cov.mean = matrix(0, D, D)
     for (i in 1:I) {
-      obs.points = which(!is.na(Y[i, ]))
+      obs.points = which(!is.na(data[i, ]))
       cov.count[obs.points, obs.points] = cov.count[obs.points, obs.points] +
         1
-      cov.sum[obs.points, obs.points] = cov.sum[obs.points, obs.points] + tcrossprod(Y.tilde[i,
+      cov.sum[obs.points, obs.points] = cov.sum[obs.points, obs.points] + tcrossprod(data.tilde[i,
         obs.points])
     }
     G.0 = ifelse(cov.count == 0, NA, cov.sum/cov.count)
@@ -172,8 +154,8 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
     row.vec = col.vec = G.0.vec = c()
     cov.sum = cov.count = cov.mean = matrix(0, D, D)
     for (i in 1:I) {
-      obs.points = which(!is.na(Y[i, ]))
-      temp = tcrossprod(Y.tilde[i, obs.points])
+      obs.points = which(!is.na(data[i, ]))
+      temp = tcrossprod(data.tilde[i, obs.points])
       diag(temp) = NA
       row.vec = c(row.vec, rep(argvals[obs.points], each = length(obs.points)))
       col.vec = c(col.vec, rep(argvals[obs.points], length(obs.points)))
@@ -181,7 +163,7 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
       # still need G.O raw to calculate to get the raw to get the diagonal
       cov.count[obs.points, obs.points] = cov.count[obs.points, obs.points] +
         1
-      cov.sum[obs.points, obs.points] = cov.sum[obs.points, obs.points] + tcrossprod(Y.tilde[i,
+      cov.sum[obs.points, obs.points] = cov.sum[obs.points, obs.points] + tcrossprod(data.tilde[i,
         obs.points])
     }
     row.vec.pred = rep(argvals, each = D)
@@ -225,7 +207,7 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
   ####
   D.inv = diag(1/evalues, nrow = npc, ncol = npc)
   Z = efunctions
-  Y.tilde = Y.pred - matrix(mu, I.pred, D, byrow = TRUE)
+  data.tilde = Y.pred - matrix(mu, I.pred, D, byrow = TRUE)
   Yhat = matrix(0, nrow = I.pred, ncol = D)
   rownames(Yhat) = rownames(Y.pred)
   colnames(Yhat) = colnames(Y.pred)
@@ -240,11 +222,11 @@ fpca_sc <- function(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL, rando
       stop("Measurement error estimated to be zero and there are fewer observed points than PCs; scores cannot be estimated.")
     Zcur = matrix(Z[obs.points, ], nrow = length(obs.points), ncol = dim(Z)[2])
     ZtZ_sD.inv = solve(crossprod(Zcur) + sigma2 * D.inv)
-    scores[i.subj, ] = ZtZ_sD.inv %*% t(Zcur) %*% (Y.tilde[i.subj, obs.points])
+    scores[i.subj, ] = ZtZ_sD.inv %*% t(Zcur) %*% (data.tilde[i.subj, obs.points])
     Yhat[i.subj, ] = t(as.matrix(mu)) + scores[i.subj, ] %*% t(efunctions)
   }
 
-  ret.objects = c("scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects = c("mu", "efunctions", "scores", "npc", "evalues")
 
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects

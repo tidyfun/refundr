@@ -4,10 +4,10 @@
 \alias{rfr_fpca}
 \title{rfr_fpca Generic function for functional principal component analyses.}
 \usage{
-rfr_fpca(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...)
+rfr_fpca(data, pve = 0.99, npc = NULL, fpca_method = NULL, ...)
 }
 \arguments{
-\item{Y}{a \code{tfd} data vector.}
+\item{data}{a \code{tfd} data vector.}
 
 \item{pve}{proportion of variance explained: used to choose the number of
 principal components.}
@@ -32,10 +32,10 @@ Allows calls to \code{fpca.sc}, \code{fpca.face}, and \code{fpca.ssvd} as implem
 \dontrun{
 library(refunder)
 data(dti_df)
-fpca_results <- rfr_fpca(Y = dti_df$cca)
+fpca_results <- rfr_fpca(data = dti_df$cca)
 
 data(chf_df)
-fpca_results <- rfr_fpca(Y = chf_df$activity)
+fpca_results <- rfr_fpca(data = chf_df$activity)
 }
 
 }

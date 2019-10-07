@@ -3,7 +3,7 @@
 ##' Default call for regular data is to \code{fpca_face}, this function processes the data and provides a wrapper to \code{fpca_face}.
 ##'
 ##'
-##' @param Y a \code{tfd} data vector.
+##' @param data a \code{tfd} data vector.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
@@ -19,19 +19,14 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(chf_df)
-##' fpca_results <- rfr_fpca(Y = chf_df$activity)
+##' fpca_results <- rfr_fpca(data = chf_df$activity)
 ##' }
 ##' @importFrom tidyr spread
 ##' @importFrom splines spline.des
 ##' @export
-rfr_fpca.tfd_reg <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
+rfr_fpca.tfd_reg <- function(data, pve = 0.99, npc = NULL, method = fpca_face, ...){
 
-  ## eventually change to as.matrix.td() call from tidyfun package
-  Y_mat <- as.matrix(spread(as.data.frame(Y), key = arg, value = value)[,-1])
+  results <- tfb_fpc(data, method = method, pve = pve, npc = npc, ...)
+  return(extract_fpca(results))
 
-  results <- fpca_face(Y = Y_mat, pve = pve, npc = npc, ...)
-
-  # need to extract `arg`
-  #tidy_fpca_obj(fpca_obj, Y)
-  return(results)
 }

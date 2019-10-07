@@ -4,7 +4,7 @@
 ##'
 ##' @title rfr_fpca Generic function for functional principal component analyses.
 ##'
-##' @param Y a \code{tfd} data vector.
+##' @param data a \code{tfd} data vector.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
@@ -20,13 +20,13 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(dti_df)
-##' fpca_results <- rfr_fpca(Y = dti_df$cca)
+##' fpca_results <- rfr_fpca(data = dti_df$cca)
 ##'
 ##' data(chf_df)
-##' fpca_results <- rfr_fpca(Y = chf_df$activity)
+##' fpca_results <- rfr_fpca(data = chf_df$activity)
 ##' }
 ##'
 ##' @export
-rfr_fpca <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
-  UseMethod("rfr_fpca", Y)
+rfr_fpca <- function(data, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
+  UseMethod("rfr_fpca", data)
 }

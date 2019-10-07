@@ -3,9 +3,8 @@
 #' A fast implementation of the sandwich smoother (Xiao et al., 2013)
 #' for covariance matrix smoothing. Pooled generalized cross validation
 #' at the data level is used for selecting the smoothing parameter.
-#' @param Y,ydata the user must supply either \code{Y}, a matrix of functions
-#' observed on a regular grid, or a data frame \code{ydata} representing
-#' irregularly observed functions. See Details.
+#' @param data, the user must supply \code{data}, a matrix of functions
+#' observed on a regular grid
 #' @param Y.pred if desired, a matrix of functions to be approximated using
 #' the FPC decomposition.
 #' @param argvals numeric; function argument.
@@ -14,7 +13,7 @@
 #' @param npc how many smooth SVs to try to extract, if \code{NA} (the
 #' default) the hard thresholding rule of Gavish and Donoho (2014) is used (see
 #' Details, References).
-#' @param center logical; center \code{Y} so that its column-means are 0? Defaults to
+#' @param center logical; center \code{data} so that its column-means are 0? Defaults to
 #' \code{TRUE}
 #' @param p integer; the degree of B-splines functions to use
 #' @param m integer; the order of difference penalty to use
@@ -51,7 +50,7 @@
 #' @return A list with components
 #' \enumerate{
 #' \item \code{Yhat} - If \code{Y.pred} is specified, the smooth version of
-#' \code{Y.pred}.   Otherwise, if \code{Y.pred=NULL}, the smooth version of \code{Y}.
+#' \code{Y.pred}.   Otherwise, if \code{Y.pred=NULL}, the smooth version of \code{data}.
 #' \item \code{scores} - matrix of scores
 #' \item \code{mu} - mean function
 #' \item \code{npc} - number of principal components
@@ -71,12 +70,14 @@
 #' @importFrom Matrix as.matrix
 #' @importFrom MASS mvrnorm
 
-fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
+fpca_face <-function(data=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
          center=TRUE,knots=35,p=3,m=2,lambda=NULL,alpha = 1,
          search.grid=TRUE,search.length=100,
          method="L-BFGS-B", lower=-20,upper=20, control=NULL){
 
-  ## data: Y, I by J data matrix, functions on rows
+  data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
+
+  ## data: data, I by J data matrix, functions on rows
   ## argvals:  vector of J
   ## knots: to specify either the number of knots or the vectors of knots;
   ##        defaults to 35;
@@ -87,9 +88,12 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
   ## lower, upper, control: see R function "optim"
   #require(Matrix)
   #source("pspline.setting.R")
-  stopifnot(!is.null(Y))
-  stopifnot(is.matrix(Y))
-  data_dim <- dim(Y)
+
+  ##### redo this so that it still accepts a dataframe (see ydata argument from original code)
+  ##### but have this as an S3 class where it can accept either.
+  stopifnot(!is.null(data))
+  stopifnot(is.matrix(data))
+  data_dim <- dim(data)
   I <- data_dim[1] ## number of subjects
   J <- data_dim[2] ## number of obs per function
 
@@ -97,9 +101,9 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
 
   meanX <- rep(0,J)
   if(center) {##center the functions
-    meanX <- colMeans(Y, na.rm=TRUE)
+    meanX <- colMeans(data, na.rm=TRUE)
     meanX <- smooth.spline(argvals,meanX,all.knots =TRUE)$y
-    Y <- t(t(Y)- meanX)
+    data <- t(t(data)- meanX)
   }
 
   ## specify the B-spline basis: knots
@@ -137,12 +141,12 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
   imputation <- FALSE
   Niter.miss <- 1
 
-  Index.miss <- is.na(Y)
+  Index.miss <- is.na(data)
   if(sum(Index.miss)>0){
-    num.miss <- rowSums(is.na(Y))
+    num.miss <- rowSums(is.na(data))
     for(i in 1:I){
       if(num.miss[i]>0){
-        y <- Y[i,]
+        y <- data[i,]
         seq <- (1:J)[!is.na(y)]
         seq2 <-(1:J)[is.na(y)]
         t1 <- argvals[seq]
@@ -151,7 +155,7 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
         temp <- predict(fit,t2,all.knots=TRUE)$y
         if(max(t2)>max(t1)) temp[t2>max(t1)] <- mean(y[seq])#y[seq[length(seq)]]
         if(min(t2)<min(t1)) temp[t2<min(t1)] <- mean(y[seq])#y[seq[1]]
-        Y[i,seq2] <- temp
+        data[i,seq2] <- temp
       }
     }
     Y0 <- matrix(NA,c.p,I)
@@ -166,13 +170,13 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
     ###################################################
     ######## Transform the Data           #############
     ###################################################
-    Ytilde <- as.matrix(t(A0)%*%as.matrix(Bt%*%t(Y)))
+    Ytilde <- as.matrix(t(A0)%*%as.matrix(Bt%*%t(data)))
     C_diag <- rowSums(Ytilde^2)
     if(iter.miss==1) Y0 = Ytilde
     ###################################################
     ########  Select Smoothing Parameters #############
     ###################################################
-    Y_square <- sum(Y^2)
+    Y_square <- sum(data^2)
     Ytilde_square <- sum(Ytilde^2)
     face_gcv <- function(x) {
       lambda <- exp(x)
@@ -243,18 +247,18 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
     if(imputation) {
       A.N <- A[,1:N]
       d <- Sigma[1:N]
-      sigmahat2  <-  max(mean(Y[!Index.miss]^2) -sum(Sigma),0)
+      sigmahat2  <-  max(mean(data[!Index.miss]^2) -sum(Sigma),0)
       Xi <- t(A.N)%*%Ytilde
       Xi <- t(as.matrix(B%*%(A0%*%((A.N%*%diag(d/(d+sigmahat2/J)))%*%Xi))))
-      Y <- Y*(1-Index.miss) + Xi*Index.miss
-      if(sum(is.na(Y))>0)
+      data <- data*(1-Index.miss) + Xi*Index.miss
+      if(sum(is.na(data))>0)
         print("error")
     }
     #if(iter.miss%%10==0) print(iter.miss)
   } ## end of while loop
 
   ### now calculate scores
-  if(is.null(Y.pred)) Y.pred = Y
+  if(is.null(Y.pred)) Y.pred = data
   else {Y.pred = t(t(as.matrix(Y.pred))-meanX)}
 
   N <- ifelse (is.null(npc), min(which(per>pve)), npc)
@@ -267,7 +271,7 @@ fpca_face <-function(Y=NULL,ydata=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, np
   npc <- N
 
   Ytilde <- as.matrix(t(A0)%*%(Bt%*%t(Y.pred)))
-  sigmahat2 <- max(mean(Y[!Index.miss]^2) -sum(Sigma),0)
+  sigmahat2 <- max(mean(data[!Index.miss]^2) -sum(Sigma),0)
   Xi <- t(Ytilde)%*%(A[,1:N]/sqrt(J))
   Xi <- MM(Xi,Sigma[1:N]/(Sigma[1:N] + sigmahat2/J))
 

@@ -4,11 +4,11 @@
 \alias{rfr_fpca.tfd_irreg}
 \title{Tidy interface for fpca with irregularly-spaced functional data}
 \usage{
-\method{rfr_fpca}{tfd_irreg}(Y, pve = 0.99, npc = NULL,
-  fpca_method = NULL, ...)
+\method{rfr_fpca}{tfd_irreg}(data, pve = 0.99, npc = NULL,
+  method = fpca_sc, ...)
 }
 \arguments{
-\item{Y}{a \code{tfd} data vector.}
+\item{data}{a \code{tfd} data vector.}
 
 \item{pve}{proportion of variance explained: used to choose the number of
 principal components.}
@@ -16,9 +16,9 @@ principal components.}
 \item{npc}{prespecified value for the number of principal components (if
 given, this overrides \code{pve}).}
 
-\item{fpca_method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
-
 \item{...}{optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.}
+
+\item{fpca_method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
 }
 \value{
 
@@ -30,7 +30,7 @@ Default call for irregular data is to \code{fpca_sc}, this function processes th
 \dontrun{
 library(refunder)
 data(dti_df)
-fpca_results <- rfr_fpca(Y = dti_df$cca)
+fpca_results <- rfr_fpca(data = dti_df$cca)
 }
 
 }

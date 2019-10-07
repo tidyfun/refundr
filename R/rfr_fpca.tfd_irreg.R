@@ -3,7 +3,7 @@
 ##' Default call for irregular data is to \code{fpca_sc}, this function processes the data and provides a wrapper to \code{fpca_sc}.
 ##'
 ##'
-##' @param Y a \code{tfd} data vector.
+##' @param data a \code{tfd} data vector.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
@@ -19,18 +19,20 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(dti_df)
-##' fpca_results <- rfr_fpca(Y = dti_df$cca)
+##' fpca_results <- rfr_fpca(data = dti_df$cca)
 ##' }
 ##'
 ##' @importFrom tidyr spread
+##' @import tidyfun
 ##' @export
-rfr_fpca.tfd_irreg <- function(Y, pve = 0.99, npc = NULL, fpca_method = NULL, ...){
+rfr_fpca.tfd_irreg <- function(data, pve = 0.99, npc = NULL, method = fpca_sc, ...){
 
   ## eventually change to as.matrix.td() call from tidyfun package
-  Y_mat <- as.matrix(spread(as.data.frame(Y), key = arg, value = value)[,-1])
+  #Y_mat <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
+  # argvals = attr(data, "args") # could feed this to fpca.sc, but this won't work if each subject has it's own grid, so instead use fpca.sc default
+  #data <- tidyfun:::df_2_mat(data) ## calls complete.cases on the data, only use this once fixed regular function
+  #data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
 
-  results <- fpca_sc(Y = Y_mat, pve = pve, npc = npc, ...)
-
-  # eventually return a better formatted object that is consistent across choice of fpca method
-  return(results)
+  results <- tfb_fpc(data, method = method, pve = pve, npc = npc, ...)
+  return(extract_fpca(results))
 }

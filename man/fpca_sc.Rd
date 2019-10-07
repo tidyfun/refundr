@@ -4,20 +4,18 @@
 \alias{fpca_sc}
 \title{Functional principal components analysis by smoothed covariance}
 \usage{
-fpca_sc(Y = NULL, ydata = NULL, Y.pred = NULL, argvals = NULL,
-  random.int = FALSE, nbasis = 10, pve = 0.99, npc = NULL,
-  useSymm = FALSE, makePD = FALSE, center = TRUE,
-  cov.est.method = 2, integration = "trapezoidal")
+fpca_sc(data, Y.pred = NULL, argvals = NULL, random.int = FALSE,
+  nbasis = 10, pve = 0.99, npc = NULL, useSymm = FALSE,
+  makePD = FALSE, center = TRUE, cov.est.method = 2,
+  integration = "trapezoidal")
 }
 \arguments{
-\item{Y, ydata}{the user must supply either \code{Y}, a matrix of functions
-observed on a regular grid, or a data frame \code{ydata} representing
-irregularly observed functions. See Details.}
+\item{data, }{a dataframe with arguments arg, value, id}
 
 \item{Y.pred}{if desired, a matrix of functions to be approximated using
 the FPC decomposition.}
 
-\item{argvals}{the argument values of the function evaluations in \code{Y},
+\item{argvals}{the argument values of the function evaluations in \code{data},
 defaults to a equidistant grid from 0 to 1.}
 
 \item{random.int}{If \code{TRUE}, the mean is estimated by
@@ -43,7 +41,7 @@ covariance surfaces that are very peaked on the diagonal.}
 covariance surface estimate?}
 
 \item{center}{logical: should an estimated mean function be subtracted from
-\code{Y}? Set to \code{FALSE} if you have already demeaned the data using
+\code{data}? Set to \code{FALSE} if you have already demeaned the data using
 your favorite mean function estimate.}
 
 \item{cov.est.method}{covariance estimation method. If set to \code{1}, a
@@ -57,7 +55,7 @@ method that obtains a naive covariance estimate which is then smoothed.}
 \value{
 An object of class \code{fpca} containing:
 \item{Yhat}{FPC approximation (projection onto leading components)
-of \code{Y}.}\item{scores}{\eqn{n
+of \code{data}.}\item{scores}{\eqn{n
 \times npc} matrix of estimated FPC scores.} \item{mu}{estimated mean
 function (or a vector of zeroes if \code{center==FALSE}).} \item{efunctions
 }{\eqn{d \times npc} matrix of estimated eigenfunctions of the functional
@@ -83,13 +81,6 @@ treated separately, was proposed in Staniswalis and Lee (1998) and much
 extended by Yao et al. (2005), who introduced the 'PACE' method.
 \code{fpca.sc} uses penalized splines to smooth the covariance function, as
 developed by Di et al. (2009) and Goldsmith et al. (2013).
-
-The functional data must be supplied as either \itemize{ \item an \eqn{n
-\times d} matrix \code{Y}, each row of which is one functional observation,
-with missing values allowed; or \item a data frame \code{ydata}, with
-columns \code{'.id'} (which curve the point belongs to, say \eqn{i}),
-\code{'.index'} (function argument such as time point \eqn{t}), and
-\code{'.value'} (observed function value \eqn{Y_i(t)}).}
 }
 \references{
 Di, C., Crainiceanu, C., Caffo, B., and Punjabi, N. (2009).
