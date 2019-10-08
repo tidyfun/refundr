@@ -2,9 +2,13 @@
 % Please edit documentation in R/rfr_fpca.R
 \name{rfr_fpca}
 \alias{rfr_fpca}
+\alias{rfr_fpca.tfb}
 \title{rfr_fpca Generic function for functional principal component analyses.}
 \usage{
-rfr_fpca(data, pve = 0.99, npc = NULL, fpca_method = NULL, ...)
+rfr_fpca(data, pve = 0.99, npc = NULL, method = NULL, ...)
+
+\method{rfr_fpca}{tfb}(data, pve = 0.99, npc = NULL, method = NULL,
+  ...)
 }
 \arguments{
 \item{data}{a \code{tfd} data vector.}
@@ -15,7 +19,7 @@ principal components.}
 \item{npc}{prespecified value for the number of principal components (if
 given, this overrides \code{pve}).}
 
-\item{fpca_method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
+\item{method}{fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data}
 
 \item{...}{optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.}
 }

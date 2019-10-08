@@ -12,7 +12,7 @@ extract_fpca <- function(rfr_tfb){
     scores = matrix(unlist(rfr_tfb), nrow = N, ncol = npc + 1, byrow = TRUE)[-1],
     mu = efunctions[, 1],
     efunctions = efunctions[, -1],
-    evalues = NULL,
+    evalues = NULL, ## update
     npc = npc
   )
   class(fpca_obj) <- c("fpca", "rfr_fpca")
