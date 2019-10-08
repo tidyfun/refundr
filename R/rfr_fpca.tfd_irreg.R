@@ -34,5 +34,6 @@ rfr_fpca.tfd_irreg <- function(data, pve = 0.99, npc = NULL, method = fpca_sc, .
   #data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
 
   results <- tfb_fpc(data, method = method, pve = pve, npc = npc, ...)
-  return(extract_fpca(results))
+  results_ls <- extract_fpca(results)
+  return(results_ls)
 }

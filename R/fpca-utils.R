@@ -5,14 +5,15 @@ extract_fpca <- function(rfr_tfb){
   # try different things then testing how much memory it takes up
   N = length(rfr_tfb)
   efunctions = attr(rfr_tfb, "basis_matrix")
-  npc = dim(efunctions[, -1])[2]
+  evalues = attr(rfr_tfb, "score_variance")
+  npc = length(evalues)
 
   fpca_obj <- list(
     Yhat_tfb = rfr_tfb,
     scores = matrix(unlist(rfr_tfb), nrow = N, ncol = npc + 1, byrow = TRUE)[-1],
     mu = efunctions[, 1],
     efunctions = efunctions[, -1],
-    evalues = NULL, ## update
+    evalues = evalues,
     npc = npc
   )
   class(fpca_obj) <- c("fpca", "rfr_fpca")
