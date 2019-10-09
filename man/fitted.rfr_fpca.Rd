@@ -4,10 +4,12 @@
 \alias{fitted.rfr_fpca}
 \title{Convert tfb_fpc object to a list}
 \usage{
-\method{fitted}{rfr_fpca}(object)
+\method{fitted}{rfr_fpca}(object, ...)
 }
 \arguments{
 \item{object}{an rf_fpca object}
+
+\item{...}{optional arguments to be passed to methods}
 }
 \description{
 Convert tfb_fpc object to a list

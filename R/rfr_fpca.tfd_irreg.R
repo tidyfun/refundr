@@ -8,7 +8,7 @@
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
 ##' given, this overrides \code{pve}).
-##' @param fpca_method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
+##' @param method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
 ##' @param ... optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.
 ##' @return
 ##'

@@ -4,7 +4,10 @@
 \alias{extract_fpca}
 \title{Convert tfb_fpc object to a list}
 \usage{
-extract_fpca(rfr_tfb)
+extract_fpca(tfb_fpc_obj)
+}
+\arguments{
+\item{tfb_fpc_obj}{object turned by \code{tfb_fpc}}
 }
 \description{
 Convert tfb_fpc object to a list

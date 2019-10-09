@@ -1,16 +1,15 @@
 ##' Convert tfb_fpc object to a list
-##'
-extract_fpca <- function(rfr_tfb){
-  # I want this list to only contain rfr_tfb unless that element is accessed
-  # try different things then testing how much memory it takes up
-  N = length(rfr_tfb)
-  efunctions = attr(rfr_tfb, "basis_matrix")
-  evalues = attr(rfr_tfb, "score_variance")
+##' @param tfb_fpc_obj object turned by \code{tfb_fpc}
+extract_fpca <- function(tfb_fpc_obj){
+  # may change this to not return the basis object
+  N = length(tfb_fpc_obj)
+  efunctions = attr(tfb_fpc_obj, "basis_matrix")
+  evalues = attr(tfb_fpc_obj, "score_variance")
   npc = length(evalues)
 
   fpca_obj <- list(
-    Yhat_tfb = rfr_tfb,
-    scores = matrix(unlist(rfr_tfb), nrow = N, ncol = npc + 1, byrow = TRUE)[-1],
+    Yhat_tfb = tfb_fpc_obj,
+    scores = matrix(unlist(tfb_fpc_obj), nrow = N, ncol = npc + 1, byrow = TRUE)[-1],
     mu = efunctions[, 1],
     efunctions = efunctions[, -1],
     evalues = evalues,
@@ -22,8 +21,11 @@ extract_fpca <- function(rfr_tfb){
 
 ##' Convert tfb_fpc object to a list
 ##' @param object an rf_fpca object
+##' @param ... optional arguments to be passed to methods
+##'
 ##' @importFrom stats fitted fitted.values
+##' @method fitted rfr_fpca
 ##' @export
-fitted.rfr_fpca = function(object){
+fitted.rfr_fpca = function(object, ...){
   tfd(object$Yhat_tfb)
 }
