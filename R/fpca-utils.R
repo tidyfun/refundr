@@ -6,10 +6,13 @@ extract_fpca <- function(tfb_fpc_obj){
   efunctions = attr(tfb_fpc_obj, "basis_matrix")
   evalues = attr(tfb_fpc_obj, "score_variance")
   npc = length(evalues)
+  scores = coefficients(tfb_fpc_obj) %>%
+    lapply("[", -1) %>% #drop intercepts
+    do.call("rbind", .)
 
   fpca_obj <- list(
     Yhat_tfb = tfb_fpc_obj,
-    scores = matrix(unlist(tfb_fpc_obj), nrow = N, ncol = npc + 1, byrow = TRUE)[-1],
+    scores = scores,
     mu = efunctions[, 1],
     efunctions = efunctions[, -1],
     evalues = evalues,
