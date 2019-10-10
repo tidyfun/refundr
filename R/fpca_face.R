@@ -69,13 +69,14 @@
 #' @importFrom stats smooth.spline optim
 #' @importFrom Matrix as.matrix
 #' @importFrom MASS mvrnorm
-
+#' @importFrom tidyr spread
+#' @importFrom rlang .data
 fpca_face <-function(data=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
          center=TRUE,knots=35,p=3,m=2,lambda=NULL,alpha = 1,
          search.grid=TRUE,search.length=100,
          method="L-BFGS-B", lower=-20,upper=20, control=NULL){
 
-  data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
+  data <- as.matrix(spread(as.data.frame(data), key = .data$arg, value = .data$value)[,-1])
 
   ## data: data, I by J data matrix, functions on rows
   ## argvals:  vector of J

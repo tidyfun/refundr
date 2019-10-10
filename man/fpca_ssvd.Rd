@@ -7,7 +7,7 @@
 fpca_ssvd(Y = NULL, argvals = NULL, npc = NA, center = TRUE,
   maxiter = 15, tol = 1e-04, diffpen = 3, gridsearch = TRUE,
   alphagrid = 1.5^(-20:40), lower.alpha = 1e-05, upper.alpha = 1e+07,
-  verbose = FALSE, integration = "trapezoidal")
+  integration = "trapezoidal")
 }
 \arguments{
 \item{Y}{data matrix (rows: observations; columns: grid of eval. points)}
@@ -40,9 +40,6 @@ GCV-optimal smoothing parameters? defaults to \code{TRUE}.}
 \code{!gridsearch}}
 
 \item{upper.alpha}{upper limit for smoothing parameter if \code{!gridsearch}}
-
-\item{verbose}{generate graphical summary of progress and diagnostic messages?
-defaults to \code{FALSE}}
 
 \item{integration}{ignored, see Details.}
 }

@@ -85,7 +85,7 @@ fpca_sc <- function(data,  Y.pred = NULL, argvals = NULL, random.int = FALSE,
   useSymm = FALSE, makePD = FALSE, center = TRUE, cov.est.method = 2, integration = "trapezoidal") {
 
   #data <- tidyfun:::df_2_mat(data) ## calls complete.cases on the data, only use this once fixed regular function
-  data <- as.matrix(spread(as.data.frame(data), key = arg, value = value)[,-1])
+  data <- as.matrix(spread(as.data.frame(data), key = .data$arg, value = .data$value)[,-1])
   if (is.null(Y.pred))
     Y.pred = data
   D = NCOL(data)

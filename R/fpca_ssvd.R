@@ -31,9 +31,7 @@
 #'@param lower.alpha lower limit for for smoothing parameter if
 #'  `!gridsearch`
 #'@param upper.alpha upper limit for smoothing parameter if `!gridsearch`
-#'@param verbose generate graphical summary of progress and diagnostic messages?
-#'  defaults to `FALSE`
-#' @param integration ignored, see Details.
+#'@param integration ignored, see Details.
 #'@author Fabian Scheipl
 #'@references Huang, J. Z., Shen, H., and Buja, A. (2008). Functional principal
 #'  components analysis via penalized rank one approximation. *Electronic
@@ -42,11 +40,10 @@
 #'  Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
 #'  Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
 #'  <http://arxiv.org/abs/1305.5870>.
-
-
+#' @importFrom stats median optimize
 fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter = 15,
   tol = 1e-4, diffpen = 3, gridsearch = TRUE, alphagrid = 1.5^(-20:40),
-  lower.alpha = 1e-5, upper.alpha = 1e7, verbose = FALSE, integration = "trapezoidal"){
+  lower.alpha = 1e-5, upper.alpha = 1e7, integration = "trapezoidal"){
 
   stopifnot(!is.null(Y))
   if(any(is.na(Y))) stop("No missing values in <Y> allowed.")
@@ -99,14 +96,6 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
   if(!is.numeric(alphagrid)) stop("Invalid <alphagrid>.")
   if(any(is.na(alphagrid)) | any(alphagrid<.Machine$double.eps)) stop("Invalid <alphagrid>.")
   uhoh <- numeric(0)
-  if(verbose & interactive()){
-    par(ask=TRUE)
-    on.exit(par(ask=FALSE))
-  }
-  if(verbose){
-    cat("Singular values of smooth and non-smooth ('noise') parts:")
-  }
-
 
 
   Omega  <- crossprod(makeDiffOp(degree=diffpen, dim=m))
@@ -161,29 +150,9 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
     V[,k] <- vnew
     d[k]  <- sqrt(sum(u^2))
 
-    if(verbose){
-
-      layout(t(matrix(1:6, ncol=2)))
-      matlplot <- function(...) matplot(..., type="l", lty=1, col=1, lwd=.1)
-
-      matlplot(t(Ynow), ylim=range(Ynow), main=bquote(Ynow[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(U[,k, drop=FALSE]%*%t(V[,k, drop=FALSE]*d[k])),
-        ylim=range(Ynow), main=bquote((UDV^T)[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(Ynow - U[,k, drop=FALSE]%*%t(V[,k, drop=FALSE]*d[k])),
-        ylim=range(Ynow), main=bquote(Ynow[.(k)] - (UDV^T)[.(k)]), xlab="", ylab="", bty="n")
-
-      matlplot(t(Y), ylim=range(Y), main=bquote(Y), xlab="", ylab="", bty="n")
-      matlplot(t(U[,1:k, drop=FALSE]%*%(t(V[,1:k, drop=FALSE])*d[1:k])),
-        ylim=range(Y), main=bquote(Y[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(Ynow - U[,k, drop=FALSE]%*%(t(V[,k, drop=FALSE])*d[k])),
-        ylim=range(Y), main=bquote(Y - Y[.(k)]), xlab="", ylab="", bty="n")
-    }
 
     Ynow <- Ynow - U[, k, drop=FALSE] %*% (t(V[, k, drop=FALSE]) * d[k])
     noisesv <- svd(Ynow, nu=0, nv=0)$d[1]
-    if(verbose){
-      cat("k:",k, "-- smooth:", d[k], "-- 'noise':", noisesv, "-- alpha:", minalpha, "\n")
-    }
     if(noisesv > 1.1 * d[k]){
       uhoh <- c(uhoh, k)
     }
