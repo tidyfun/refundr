@@ -19,8 +19,8 @@ the FPC decomposition.}
 defaults to a equidistant grid from 0 to 1.}
 
 \item{random.int}{If \code{TRUE}, the mean is estimated by
-\code{\link[gamm4]{gamm4}} with random intercepts. If \code{FALSE} (the
-default), the mean is estimated by \code{\link[mgcv]{gam}} treating all the
+\code{\link[gamm4:gamm4]{gamm4::gamm4()}} with random intercepts. If \code{FALSE} (the
+default), the mean is estimated by \code{\link[mgcv:gam]{mgcv::gam()}} treating all the
 data as independent.}
 
 \item{nbasis}{number of B-spline basis functions used for estimation of the

@@ -20,9 +20,6 @@ given, this overrides \code{pve}).}
 
 \item{...}{optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.}
 }
-\value{
-
-}
 \description{
 Default call for irregular data is to \code{fpca_sc}, this function processes the data and provides a wrapper to \code{fpca_sc}.
 }
@@ -35,7 +32,7 @@ fpca_results <- rfr_fpca(data = dti_df$cca)
 
 }
 \seealso{
-\code{\link{rfr_fpca}}, \code{\link{rfr_fpca.tfd_reg}}
+\code{\link[=rfr_fpca]{rfr_fpca()}}, \code{\link[=rfr_fpca.tfd_reg]{rfr_fpca.tfd_reg()}}
 }
 \author{
 Julia, Jeff, Fabian (plus any authors of the original refund code)

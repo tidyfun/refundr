@@ -1,19 +1,19 @@
 ##' Tidy interface for fpca with regularly-spaced functional data
 ##'
-##' Default call for regular data is to \code{fpca_face}, this function processes the data and provides a wrapper to \code{fpca_face}.
+##' Default call for regular data is to `fpca_face`, this function processes the data and provides a wrapper to `fpca_face`.
 ##'
 ##'
-##' @param data a \code{tfd} data vector.
+##' @param data a `tfd` data vector.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
-##' given, this overrides \code{pve}).
+##' given, this overrides `pve`).
 ##' @param method fpca method of choice. Different options are available but defaults will be set depending on regularity/irregularity of the data
-##' @param ... optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.
+##' @param ... optional arguments to be passed to methods. Takes arguments from original `refund` functions.
 ##' @return
 ##'
 ##' @author Julia, Jeff, Fabian (plus any authors of the original refund code)
-##' @seealso \code{\link{rfr_fpca}}, \code{\link{rfr_fpca.tfd_irreg}}
+##' @seealso [rfr_fpca()], [rfr_fpca.tfd_irreg()]
 ##'
 ##' @examples
 ##' \dontrun{

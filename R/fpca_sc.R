@@ -11,49 +11,49 @@
 ##' FPCA via kernel smoothing of the covariance function, with the diagonal
 ##' treated separately, was proposed in Staniswalis and Lee (1998) and much
 ##' extended by Yao et al. (2005), who introduced the 'PACE' method.
-##' \code{fpca.sc} uses penalized splines to smooth the covariance function, as
+##' `fpca.sc` uses penalized splines to smooth the covariance function, as
 ##' developed by Di et al. (2009) and Goldsmith et al. (2013).
 ##'
 ##' @param data, a dataframe with arguments arg, value, id
 ##' @param Y.pred if desired, a matrix of functions to be approximated using
 ##' the FPC decomposition.
-##' @param argvals the argument values of the function evaluations in \code{data},
+##' @param argvals the argument values of the function evaluations in `data`,
 #'  defaults to a equidistant grid from 0 to 1.
-##' @param random.int If \code{TRUE}, the mean is estimated by
-##' \code{\link[gamm4]{gamm4}} with random intercepts. If \code{FALSE} (the
-##' default), the mean is estimated by \code{\link[mgcv]{gam}} treating all the
+##' @param random.int If `TRUE`, the mean is estimated by
+##' [gamm4::gamm4()] with random intercepts. If `FALSE` (the
+##' default), the mean is estimated by [mgcv::gam()] treating all the
 ##' data as independent.
 ##' @param nbasis number of B-spline basis functions used for estimation of the
 ##' mean function and bivariate smoothing of the covariance surface.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##' principal components.
 ##' @param npc prespecified value for the number of principal components (if
-##' given, this overrides \code{pve}).
+##' given, this overrides `pve`).
 ##' @param useSymm logical, indicating whether to smooth only the upper
-##' triangular part of the naive covariance (when \code{cov.est.method==2}).
+##' triangular part of the naive covariance (when `cov.est.method==2`).
 ##' This can save computation time for large data sets, and allows for
 ##' covariance surfaces that are very peaked on the diagonal.
 ##' @param makePD logical: should positive definiteness be enforced for the
 ##' covariance surface estimate?
 ##' @param center logical: should an estimated mean function be subtracted from
-##' \code{data}? Set to \code{FALSE} if you have already demeaned the data using
+##' `data`? Set to `FALSE` if you have already demeaned the data using
 ##' your favorite mean function estimate.
-##' @param cov.est.method covariance estimation method. If set to \code{1}, a
+##' @param cov.est.method covariance estimation method. If set to `1`, a
 ##' one-step method that applies a bivariate smooth to the \eqn{y(s_1)y(s_2)}
-##' values. This can be very slow. If set to \code{2} (the default), a two-step
+##' values. This can be very slow. If set to `2` (the default), a two-step
 ##' method that obtains a naive covariance estimate which is then smoothed.
 ##' @param integration quadrature method for numerical integration; only
-##' \code{'trapezoidal'} is currently supported.
-##' @return An object of class \code{fpca} containing:
+##' `'trapezoidal'` is currently supported.
+##' @return An object of class `fpca` containing:
 ##' \item{Yhat}{FPC approximation (projection onto leading components)
-##' of \code{data}.}\item{scores}{\eqn{n
+##' of `data`.}\item{scores}{\eqn{n
 ##' \times npc} matrix of estimated FPC scores.} \item{mu}{estimated mean
-##' function (or a vector of zeroes if \code{center==FALSE}).} \item{efunctions
+##' function (or a vector of zeroes if `center==FALSE`).} \item{efunctions
 ##' }{\eqn{d \times npc} matrix of estimated eigenfunctions of the functional
 ##' covariance, i.e., the FPC basis functions.} \item{evalues}{estimated
 ##' eigenvalues of the covariance operator, i.e., variances of FPC scores.}
-##' \item{npc }{number of FPCs: either the supplied \code{npc}, or the minimum
-##' number of basis functions needed to explain proportion \code{pve} of the
+##' \item{npc }{number of FPCs: either the supplied `npc`, or the minimum
+##' number of basis functions needed to explain proportion `pve` of the
 ##' variance in the observed curves.} \item{argvals}{argument values of
 ##' eigenfunction evaluations}
 ##' @author Jeff Goldsmith \email{jeff.goldsmith@@columbia.edu}, Sonja Greven
@@ -61,20 +61,20 @@
 ##' \email{Lan.Huo@@nyumc.org}, Lei Huang \email{huangracer@@gmail.com}, and
 ##' Philip Reiss \email{phil.reiss@@nyumc.org}
 ##' @references Di, C., Crainiceanu, C., Caffo, B., and Punjabi, N. (2009).
-##' Multilevel functional principal component analysis. \emph{Annals of Applied
-##' Statistics}, 3, 458--488.
+##' Multilevel functional principal component analysis. *Annals of Applied
+##' Statistics*, 3, 458--488.
 ##'
 ##' Goldsmith, J., Greven, S., and Crainiceanu, C. (2013). Corrected confidence
-##' bands for functional data using principal components. \emph{Biometrics},
+##' bands for functional data using principal components. *Biometrics*,
 ##' 69(1), 41--51.
 ##'
 ##' Staniswalis, J. G., and Lee, J. J. (1998). Nonparametric regression
-##' analysis of longitudinal data. \emph{Journal of the American Statistical
-##' Association}, 93, 1403--1418.
+##' analysis of longitudinal data. *Journal of the American Statistical
+##' Association*, 93, 1403--1418.
 ##'
 ##' Yao, F., Mueller, H.-G., and Wang, J.-L. (2005). Functional data analysis
-##' for sparse longitudinal data. \emph{Journal of the American Statistical
-##' Association}, 100, 577--590.
+##' for sparse longitudinal data. *Journal of the American Statistical
+##' Association*, 100, 577--590.
 ##' @importFrom stats predict quantile weighted.mean
 ##' @importFrom Matrix nearPD Matrix t as.matrix
 ##' @importFrom mgcv gam predict.gam

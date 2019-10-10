@@ -23,9 +23,6 @@ given, this overrides \code{pve}).}
 
 \item{...}{optional arguments to be passed to methods. Takes arguments from original \code{refund} functions.}
 }
-\value{
-
-}
 \description{
 Tidy interface to refund fpca functions
 }
@@ -44,7 +41,7 @@ fpca_results <- rfr_fpca(data = chf_df$activity)
 
 }
 \seealso{
-\code{\link{rfr_fpca.tfd_irreg}}, \code{\link{rfr_fpca.tfd_reg}}
+\code{\link[=rfr_fpca.tfd_irreg]{rfr_fpca.tfd_irreg()}}, \code{\link[=rfr_fpca.tfd_reg]{rfr_fpca.tfd_reg()}}
 }
 \author{
 Julia, Jeff, Fabian (plus any authors of the original refund code)

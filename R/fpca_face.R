@@ -3,25 +3,25 @@
 #' A fast implementation of the sandwich smoother (Xiao et al., 2013)
 #' for covariance matrix smoothing. Pooled generalized cross validation
 #' at the data level is used for selecting the smoothing parameter.
-#' @param data, the user must supply \code{data}, a matrix of functions
+#' @param data, the user must supply `data`, a matrix of functions
 #' observed on a regular grid
 #' @param Y.pred if desired, a matrix of functions to be approximated using
 #' the FPC decomposition.
 #' @param argvals numeric; function argument.
 #' @param pve proportion of variance explained: used to choose the number of
 #' principal components.
-#' @param npc how many smooth SVs to try to extract, if \code{NA} (the
+#' @param npc how many smooth SVs to try to extract, if `NA` (the
 #' default) the hard thresholding rule of Gavish and Donoho (2014) is used (see
 #' Details, References).
-#' @param center logical; center \code{data} so that its column-means are 0? Defaults to
-#' \code{TRUE}
+#' @param center logical; center `data` so that its column-means are 0? Defaults to
+#' `TRUE`
 #' @param p integer; the degree of B-splines functions to use
 #' @param m integer; the order of difference penalty to use
 #' @param knots number of knots to use or the vectors of knots; defaults to 35
 #' @param lambda smoothing parameter; if not specified smoothing parameter is
-#' chosen using \code{\link[stats]{optim}} or a grid search
-#' @param alpha numeric; tuning parameter for GCV; see parameter \code{gamma}
-#' in \code{\link[mgcv]{gam}}
+#' chosen using [stats::optim()] or a grid search
+#' @param alpha numeric; tuning parameter for GCV; see parameter `gamma`
+#' in [mgcv::gam()]
 ## @param maxiter how many iterations of the power algorithm to perform at
 ## most (defaults to 15)
 ## @param tol convergence tolerance for power algorithm (defaults to 1e-4)
@@ -39,32 +39,32 @@
 ## messages?  defaults to \code{FALSE}
 ## @param score.method character; method to use to estimate scores; one of
 ## \code{"blup"} or \code{"int"} (default)
-#' @param search.grid logical; should a grid search be used to find \code{lambda}?
-#'  Otherwise, \code{\link[stats]{optim}} is used
+#' @param search.grid logical; should a grid search be used to find `lambda`?
+#'  Otherwise, [stats::optim()] is used
 #' @param search.length integer; length of grid to use for grid search for
-#' \code{lambda}; ignored if \code{search.grid} is \code{FALSE}
-#' @param method method to use; see \code{\link[stats]{optim}}
-#' @param lower see \code{\link[stats]{optim}}
-#' @param upper see \code{\link[stats]{optim}}
-#' @param control see \code{\link[stats]{optim}}
+#' `lambda`; ignored if `search.grid` is `FALSE`
+#' @param method method to use; see [stats::optim()]
+#' @param lower see [stats::optim()]
+#' @param upper see [stats::optim()]
+#' @param control see [stats::optim()]
 #' @return A list with components
 #' \enumerate{
-#' \item \code{Yhat} - If \code{Y.pred} is specified, the smooth version of
-#' \code{Y.pred}.   Otherwise, if \code{Y.pred=NULL}, the smooth version of \code{data}.
-#' \item \code{scores} - matrix of scores
-#' \item \code{mu} - mean function
-#' \item \code{npc} - number of principal components
-#' \item \code{efunctions} - matrix of eigenvectors
-#' \item \code{evalues} - vector of eigenvalues
+#' \item `Yhat` - If `Y.pred` is specified, the smooth version of
+#' `Y.pred`.   Otherwise, if `Y.pred=NULL`, the smooth version of `data`.
+#' \item `scores` - matrix of scores
+#' \item `mu` - mean function
+#' \item `npc` - number of principal components
+#' \item `efunctions` - matrix of eigenvectors
+#' \item `evalues` - vector of eigenvalues
 #' }
 #' @author Luo Xiao
 #' @references Xiao, L., Li, Y., and Ruppert, D. (2013).
-#' Fast bivariate \emph{P}-splines: the sandwich smoother,
-#' \emph{Journal of the Royal Statistical Society: Series B}, 75(3), 577-599.
+#' Fast bivariate *P*-splines: the sandwich smoother,
+#' *Journal of the Royal Statistical Society: Series B*, 75(3), 577-599.
 #'
 #' Xiao, L., Ruppert, D., Zipunnikov, V., and Crainiceanu, C. (2016).
 #' Fast covariance estimation for high-dimensional functional data.
-#' \emph{Statistics and Computing}, 26, 409-421.
+#' *Statistics and Computing*, 26, 409-421.
 #' DOI: 10.1007/s11222-014-9485-x.
 #' @importFrom stats smooth.spline optim
 #' @importFrom Matrix as.matrix

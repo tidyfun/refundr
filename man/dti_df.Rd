@@ -11,7 +11,7 @@ the tract profiles are the subject ID numbers, visit number, total
 number of scans, multiple sclerosis case status and Paced Auditory Serial
 Addition Test (pasat) score.
 
-Data are also include in the `refund` package in another format.
+Data are also include in the \code{refund} package in another format.
 }
 \details{
 If you use this data as an example in written work, please

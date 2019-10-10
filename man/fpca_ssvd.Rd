@@ -31,7 +31,7 @@ References).}
 the right singular vectors, defaults to 3 (i.e., deviations from local
 quadratic polynomials).}
 
-\item{gridsearch}{use \code{\link[stats]{optimize}} or a grid search to find
+\item{gridsearch}{use \code{\link[stats:optimize]{stats::optimize()}} or a grid search to find
 GCV-optimal smoothing parameters? defaults to \code{TRUE}.}
 
 \item{alphagrid}{grid of smoothing parameter values for grid search}
@@ -60,12 +60,12 @@ points.
 }
 \references{
 Huang, J. Z., Shen, H., and Buja, A. (2008). Functional principal
- components analysis via penalized rank one approximation. \emph{Electronic
- Journal of Statistics}, 2, 678-695
+components analysis via penalized rank one approximation. \emph{Electronic
+Journal of Statistics}, 2, 678-695
 
- Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
- Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
- \url{http://arxiv.org/abs/1305.5870}.
+Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
+Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
+\url{http://arxiv.org/abs/1305.5870}.
 }
 \author{
 Fabian Scheipl
