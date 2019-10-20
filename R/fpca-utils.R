@@ -1,5 +1,5 @@
 ##' Convert tfb_fpc object to a list
-##' @param tfb_fpc_obj object turned by \code{tfb_fpc}
+##' @param tfb_fpc_obj object turned by `tfb_fpc`
 extract_fpca <- function(tfb_fpc_obj){
   # may change this to not return the basis object
   N = length(tfb_fpc_obj)

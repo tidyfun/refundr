@@ -7,7 +7,15 @@ Authors@R: c(person("Julia", "Wrobel", email = "julia.wrobel@cuanschutz.edu", ro
 Description: Interfaces key functions from the refund package with framework from the tidyfun package to provide a tidier interface to FPCA and regression for functional data.
 Depends: R (>= 3.4)
 Imports:
-  stats, gamm4, mgcv, Matrix, dplyr, tidyr, MASS, tidyfun
+    dplyr, 
+    gamm4, 
+    MASS, 
+    Matrix, 
+    mgcv, 
+    stats, 
+    rlang, 
+    tidyfun, 
+    tidyr
 Remotes: github::tidyfun/tidyfun@dev
 License: GPL-3
 Encoding: UTF-8
@@ -15,3 +23,4 @@ LazyData: true
 RoxygenNote: 6.1.1
 Suggests: 
     testthat
+Roxygen: list(markdown = TRUE)

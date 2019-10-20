@@ -7,7 +7,7 @@
 fpca_ssvd(Y = NULL, argvals = NULL, npc = NA, center = TRUE,
   maxiter = 15, tol = 1e-04, diffpen = 3, gridsearch = TRUE,
   alphagrid = 1.5^(-20:40), lower.alpha = 1e-05, upper.alpha = 1e+07,
-  verbose = FALSE, integration = "trapezoidal")
+  integration = "trapezoidal")
 }
 \arguments{
 \item{Y}{data matrix (rows: observations; columns: grid of eval. points)}
@@ -31,7 +31,7 @@ References).}
 the right singular vectors, defaults to 3 (i.e., deviations from local
 quadratic polynomials).}
 
-\item{gridsearch}{use \code{\link[stats]{optimize}} or a grid search to find
+\item{gridsearch}{use \code{\link[stats:optimize]{stats::optimize()}} or a grid search to find
 GCV-optimal smoothing parameters? defaults to \code{TRUE}.}
 
 \item{alphagrid}{grid of smoothing parameter values for grid search}
@@ -40,9 +40,6 @@ GCV-optimal smoothing parameters? defaults to \code{TRUE}.}
 \code{!gridsearch}}
 
 \item{upper.alpha}{upper limit for smoothing parameter if \code{!gridsearch}}
-
-\item{verbose}{generate graphical summary of progress and diagnostic messages?
-defaults to \code{FALSE}}
 
 \item{integration}{ignored, see Details.}
 }
@@ -60,12 +57,12 @@ points.
 }
 \references{
 Huang, J. Z., Shen, H., and Buja, A. (2008). Functional principal
- components analysis via penalized rank one approximation. \emph{Electronic
- Journal of Statistics}, 2, 678-695
+components analysis via penalized rank one approximation. \emph{Electronic
+Journal of Statistics}, 2, 678-695
 
- Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
- Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
- \url{http://arxiv.org/abs/1305.5870}.
+Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
+Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
+\url{http://arxiv.org/abs/1305.5870}.
 }
 \author{
 Fabian Scheipl

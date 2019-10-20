@@ -1,7 +1,7 @@
 #'Smoothed FPCA via iterative penalized rank one SVDs.
 #'
 #'Implements the algorithm of Huang, Shen, Buja (2008) for finding smooth right
-#'singular vectors of a matrix \code{X} containing (contaminated) evaluations of
+#'singular vectors of a matrix `X` containing (contaminated) evaluations of
 #'functional random variables on a regular, equidistant grid. If the number of
 #'smooth SVs to extract is not specified, the function hazards a guess for the
 #'appropriate number based on the asymptotically optimal truncation threshold
@@ -12,41 +12,38 @@
 #'points.
 #'
 #'@param Y data matrix (rows: observations; columns: grid of eval. points)
-#'@param argvals the argument values of the function evaluations in \code{Y},
+#'@param argvals the argument values of the function evaluations in `Y`,
 #'  defaults to a equidistant grid from 0 to 1. See Details.
-#'@param npc how many smooth SVs to try to extract, if \code{NA} (the default)
+#'@param npc how many smooth SVs to try to extract, if `NA` (the default)
 #'  the hard thresholding rule of Donoho, Gavish (2013) is used (see Details,
 #'  References).
-#'@param center center \code{Y} so that its column-means are 0? Defaults to
-#'  \code{TRUE}
+#'@param center center `Y` so that its column-means are 0? Defaults to
+#'  `TRUE`
 #'@param maxiter how many iterations of the power algorithm to perform at most
 #'  (defaults to 15)
 #'@param tol convergence tolerance for power algorithm (defaults to 1e-4)
 #'@param diffpen difference penalty order controlling the desired smoothness of
 #'  the right singular vectors, defaults to 3 (i.e., deviations from local
 #'  quadratic polynomials).
-#'@param gridsearch use \code{\link[stats]{optimize}} or a grid search to find
-#'  GCV-optimal smoothing parameters? defaults to \code{TRUE}.
+#'@param gridsearch use [stats::optimize()] or a grid search to find
+#'  GCV-optimal smoothing parameters? defaults to `TRUE`.
 #'@param alphagrid  grid of smoothing parameter values for grid search
 #'@param lower.alpha lower limit for for smoothing parameter if
-#'  \code{!gridsearch}
-#'@param upper.alpha upper limit for smoothing parameter if \code{!gridsearch}
-#'@param verbose generate graphical summary of progress and diagnostic messages?
-#'  defaults to \code{FALSE}
-#' @param integration ignored, see Details.
+#'  `!gridsearch`
+#'@param upper.alpha upper limit for smoothing parameter if `!gridsearch`
+#'@param integration ignored, see Details.
 #'@author Fabian Scheipl
 #'@references Huang, J. Z., Shen, H., and Buja, A. (2008). Functional principal
-#'  components analysis via penalized rank one approximation. \emph{Electronic
-#'  Journal of Statistics}, 2, 678-695
+#'  components analysis via penalized rank one approximation. *Electronic
+#'  Journal of Statistics*, 2, 678-695
 #'
 #'  Donoho, D.L., and Gavish, M. (2013). The Optimal Hard Threshold for Singular
 #'  Values is 4/sqrt(3). eprint arXiv:1305.5870. Available from
-#'  \url{http://arxiv.org/abs/1305.5870}.
-
-
+#'  <http://arxiv.org/abs/1305.5870>.
+#' @importFrom stats median optimize
 fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter = 15,
   tol = 1e-4, diffpen = 3, gridsearch = TRUE, alphagrid = 1.5^(-20:40),
-  lower.alpha = 1e-5, upper.alpha = 1e7, verbose = FALSE, integration = "trapezoidal"){
+  lower.alpha = 1e-5, upper.alpha = 1e7, integration = "trapezoidal"){
 
   stopifnot(!is.null(Y))
   if(any(is.na(Y))) stop("No missing values in <Y> allowed.")
@@ -99,14 +96,6 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
   if(!is.numeric(alphagrid)) stop("Invalid <alphagrid>.")
   if(any(is.na(alphagrid)) | any(alphagrid<.Machine$double.eps)) stop("Invalid <alphagrid>.")
   uhoh <- numeric(0)
-  if(verbose & interactive()){
-    par(ask=TRUE)
-    on.exit(par(ask=FALSE))
-  }
-  if(verbose){
-    cat("Singular values of smooth and non-smooth ('noise') parts:")
-  }
-
 
 
   Omega  <- crossprod(makeDiffOp(degree=diffpen, dim=m))
@@ -161,29 +150,9 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
     V[,k] <- vnew
     d[k]  <- sqrt(sum(u^2))
 
-    if(verbose){
-
-      layout(t(matrix(1:6, ncol=2)))
-      matlplot <- function(...) matplot(..., type="l", lty=1, col=1, lwd=.1)
-
-      matlplot(t(Ynow), ylim=range(Ynow), main=bquote(Ynow[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(U[,k, drop=FALSE]%*%t(V[,k, drop=FALSE]*d[k])),
-        ylim=range(Ynow), main=bquote((UDV^T)[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(Ynow - U[,k, drop=FALSE]%*%t(V[,k, drop=FALSE]*d[k])),
-        ylim=range(Ynow), main=bquote(Ynow[.(k)] - (UDV^T)[.(k)]), xlab="", ylab="", bty="n")
-
-      matlplot(t(Y), ylim=range(Y), main=bquote(Y), xlab="", ylab="", bty="n")
-      matlplot(t(U[,1:k, drop=FALSE]%*%(t(V[,1:k, drop=FALSE])*d[1:k])),
-        ylim=range(Y), main=bquote(Y[.(k)]), xlab="", ylab="", bty="n")
-      matlplot(t(Ynow - U[,k, drop=FALSE]%*%(t(V[,k, drop=FALSE])*d[k])),
-        ylim=range(Y), main=bquote(Y - Y[.(k)]), xlab="", ylab="", bty="n")
-    }
 
     Ynow <- Ynow - U[, k, drop=FALSE] %*% (t(V[, k, drop=FALSE]) * d[k])
     noisesv <- svd(Ynow, nu=0, nv=0)$d[1]
-    if(verbose){
-      cat("k:",k, "-- smooth:", d[k], "-- 'noise':", noisesv, "-- alpha:", minalpha, "\n")
-    }
     if(noisesv > 1.1 * d[k]){
       uhoh <- c(uhoh, k)
     }

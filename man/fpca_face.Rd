@@ -36,24 +36,24 @@ Details, References).}
 \item{m}{integer; the order of difference penalty to use}
 
 \item{lambda}{smoothing parameter; if not specified smoothing parameter is
-chosen using \code{\link[stats]{optim}} or a grid search}
+chosen using \code{\link[stats:optim]{stats::optim()}} or a grid search}
 
 \item{alpha}{numeric; tuning parameter for GCV; see parameter \code{gamma}
-in \code{\link[mgcv]{gam}}}
+in \code{\link[mgcv:gam]{mgcv::gam()}}}
 
 \item{search.grid}{logical; should a grid search be used to find \code{lambda}?
-Otherwise, \code{\link[stats]{optim}} is used}
+Otherwise, \code{\link[stats:optim]{stats::optim()}} is used}
 
 \item{search.length}{integer; length of grid to use for grid search for
 \code{lambda}; ignored if \code{search.grid} is \code{FALSE}}
 
-\item{method}{method to use; see \code{\link[stats]{optim}}}
+\item{method}{method to use; see \code{\link[stats:optim]{stats::optim()}}}
 
-\item{lower}{see \code{\link[stats]{optim}}}
+\item{lower}{see \code{\link[stats:optim]{stats::optim()}}}
 
-\item{upper}{see \code{\link[stats]{optim}}}
+\item{upper}{see \code{\link[stats:optim]{stats::optim()}}}
 
-\item{control}{see \code{\link[stats]{optim}}}
+\item{control}{see \code{\link[stats:optim]{stats::optim()}}}
 }
 \value{
 A list with components

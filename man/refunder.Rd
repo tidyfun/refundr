@@ -6,14 +6,13 @@
 \alias{refunder-package}
 \title{refunder}
 \description{
-`refunder` makes functional data analyses
-in `R` more consistent and user friendly\cr\cr
-`refunder` provides:
+\code{refunder} makes functional data analyses
+in \code{R} more consistent and user friendly\cr\cr
+\code{refunder} provides:
+\itemize{
+\item tidy interface for common fpca methods and funcional regression
+\item plays nice with the \code{tidyfun} package for wrangling functional data
 }
-\details{
-- tidy interface for common fpca methods and funcional regression
-  - plays nice with the `tidyfun` package for wrangling functional data
-\cr\cr
-\cr
-Also see `vignette("refunder")` for a brief introduction.
+
+Also see \code{vignette("refunder")} for a brief introduction.
 }
