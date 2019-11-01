@@ -7,7 +7,8 @@
 ##' @title rfr_fpca Generic function for functional principal component
 ##'   analyses.
 ##'
-##' @param data a `tfd` data vector.
+##' @param Y character value indicating name for a `tfd` data vector. Class `tfb` also supported.
+##' @param data a `data.frame` containing the `Y` vector as a column.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##'   principal components.
 ##' @param npc prespecified value for the number of principal components (if
@@ -25,22 +26,22 @@
 ##' \dontrun{
 ##' library(refunder)
 ##' data(dti_df)
-##' fpca_irregular <- rfr_fpca(data = dti_df$cca)
+##' fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
 ##'
 ##' data(chf_df)
-##' fpca_regular <- rfr_fpca(data = chf_df$activity)
+##' fpca_regular <- rfr_fpca(Y = "activity", data = chf_df)
 ##' }
 ##'
 ##' @export
 ##' @import tidyfun
-rfr_fpca <- function(data, pve = 0.99, npc = NULL, method = NULL, ...){
-  UseMethod("rfr_fpca", data)
+rfr_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
+  UseMethod("rfr_fpca", data[[Y]])
 }
 
 
 #' @rdname rfr_fpca
 #' @export
-rfr_fpca.tfb <- function(data, pve = 0.99, npc = NULL, method = NULL, ...){
+rfr_fpca.tfb <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
   data <- tfd(data)
-  rfr_fpca(data = data, pve = pve, npc = npc, method = method, ...)
+  rfr_fpca(Y = Y, data = data, pve = pve, npc = npc, method = method, ...)
 }

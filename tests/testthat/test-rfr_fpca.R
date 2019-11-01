@@ -16,10 +16,17 @@ scores <- {
 data_reg <- 1 + t(eigenfunctions %*% scores) %>% tfd
 data_irreg <- data_reg %>% tf_sparsify(dropout = .05)
 
+df_reg <- tibble(
+  data_reg = data_reg
+)
+
+df_irreg <- tibble(
+  data_irreg = data_irreg
+)
 
 test_that("rfr_fpca defaults run on regular data", {
-  expect_is(rfr_fpca(data_reg), "rfr_fpca")
-  reg_fpca <- rfr_fpca(data_reg)
+  expect_is(rfr_fpca("data_reg", df_reg), "rfr_fpca")
+  reg_fpca <- rfr_fpca("data_reg", df_reg)
 
   expect_equivalent(mean(data_reg) %>% tf_evaluations %>% unlist,
                     reg_fpca$mu,
@@ -39,8 +46,8 @@ test_that("rfr_fpca defaults run on regular data", {
 
 
 test_that("rfr_fpca defaults run on irregular data", {
-  expect_is(rfr_fpca(data_irreg), "rfr_fpca")
-  irreg_fpca <- rfr_fpca(data_irreg)
+  expect_is(rfr_fpca("data_irreg", df_irreg), "rfr_fpca")
+  irreg_fpca <- rfr_fpca("data_irreg", df_irreg)
 
   expect_equivalent(mean(data_irreg, na.rm = TRUE) %>% tf_evaluations %>% unlist,
                     irreg_fpca$mu,
@@ -58,9 +65,4 @@ test_that("rfr_fpca defaults run on irregular data", {
       mean(abs(irreg_fpca$scores/t(scores)) >  1.15) < .15)
 })
 
-test_that("multiple dot-dot-dot arguments accepted for fpca_sc", {
-  expect_is(rfr_fpca(dti_df$cca, nbasis = 9, makePD = TRUE), "rfr_fpca")
-  expect_equal(rfr_fpca(dti_df$cca, nbasis = 5, npc = 3)$npc,
-               3)
-})
 

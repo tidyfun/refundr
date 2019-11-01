@@ -1,5 +1,6 @@
 ##' Convert tfb_fpc object to a list
 ##' @param tfb_fpc_obj object turned by `tfb_fpc`
+##' @importFrom stats coefficients
 extract_fpca <- function(tfb_fpc_obj){
   # may change this to not return the basis object
   N = length(tfb_fpc_obj)

@@ -9,19 +9,21 @@
 \title{rfr_fpca Generic function for functional principal component
 analyses.}
 \usage{
-rfr_fpca(data, pve = 0.99, npc = NULL, method = NULL, ...)
+rfr_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 
-\method{rfr_fpca}{tfb}(data, pve = 0.99, npc = NULL, method = NULL,
-  ...)
+\method{rfr_fpca}{tfb}(Y, data, pve = 0.99, npc = NULL,
+  method = NULL, ...)
 
-\method{rfr_fpca}{tfd_irreg}(data, pve = 0.99, npc = NULL,
+\method{rfr_fpca}{tfd_irreg}(Y, data, pve = 0.99, npc = NULL,
   method = fpca_sc, ...)
 
-\method{rfr_fpca}{tfd_reg}(data, pve = 0.99, npc = NULL,
+\method{rfr_fpca}{tfd_reg}(Y, data, pve = 0.99, npc = NULL,
   method = fpca_face, ...)
 }
 \arguments{
-\item{data}{a \code{tfd} data vector.}
+\item{Y}{character value indicating name for a \code{tfd} data vector. Class \code{tfb} also supported.}
+
+\item{data}{a \code{data.frame} containing the \code{Y} vector as a column.}
 
 \item{pve}{proportion of variance explained: used to choose the number of
 principal components.}
@@ -58,10 +60,10 @@ objects are input and tidy objects are returned as well.
 \dontrun{
 library(refunder)
 data(dti_df)
-fpca_irregular <- rfr_fpca(data = dti_df$cca)
+fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
 
 data(chf_df)
-fpca_regular <- rfr_fpca(data = chf_df$activity)
+fpca_regular <- rfr_fpca(Y = "activity", data = chf_df)
 }
 
 }
