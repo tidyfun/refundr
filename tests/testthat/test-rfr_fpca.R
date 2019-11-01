@@ -66,3 +66,11 @@ test_that("rfr_fpca defaults run on irregular data", {
 })
 
 
+test_that("residuals and fitted method for rfr_fpca don't error", {
+  reg_fpca <- rfr_fpca("data_reg", df_reg)
+  irreg_fpca <- rfr_fpca("data_irreg", df_irreg)
+
+  expect_equivalent(residuals(reg_fpca), data_reg - fitted(reg_fpca))
+  expect_equivalent(residuals(irreg_fpca), data_irreg - fitted(irreg_fpca))
+
+})

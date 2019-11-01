@@ -23,13 +23,3 @@ extract_fpca <- function(tfb_fpc_obj){
   fpca_obj
 }
 
-##' Convert tfb_fpc object to a list
-##' @param object an rf_fpca object
-##' @param ... optional arguments to be passed to methods
-##'
-##' @importFrom stats fitted fitted.values
-##' @method fitted rfr_fpca
-##' @export
-fitted.rfr_fpca = function(object, ...){
-  tfd(object$Yhat_tfb)
-}

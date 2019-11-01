@@ -5,5 +5,6 @@ rfr_fpca.tfd_irreg <- function(Y, data, pve = 0.99, npc = NULL, method = fpca_sc
   Y <- data[[Y]]
   results <- tfb_fpc(Y, method = method, pve = pve, npc = npc, ...)
   results_ls <- extract_fpca(results)
+  results_ls$Y <- Y
   return(results_ls)
 }
