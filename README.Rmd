@@ -60,10 +60,10 @@ library(refunder)
 
 # irregular data 
 data(dti_df)
-dti_fpca = rfr_fpca(dti_df$cca)
+dti_fpca = rfr_fpca(Y = "cca", data = dti_df)
 
 # regular data
 data(chf_df)
-dti_fpca = rfr_fpca(chf_df$activity)
+dti_fpca = rfr_fpca(Y = "activity", data = chf_df)
 ```
 
