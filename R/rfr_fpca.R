@@ -41,7 +41,7 @@ rfr_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
 
 #' @rdname rfr_fpca
 #' @export
-rfr_fpca.tfb <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
-  data <- tfd(data)
-  rfr_fpca(Y = Y, data = data, pve = pve, npc = npc, method = method, ...)
+rfr_fpca.tfb <- function(Y, data, pve = 0.99, npc = NULL, ...){
+  data[[Y]] <- tfd(data[[Y]])
+  rfr_fpca(Y = Y, data = data, pve = .99, npc = npc, method = method, ...)
 }
