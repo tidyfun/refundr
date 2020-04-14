@@ -116,3 +116,11 @@ test_that("predict functions work for fpca", {
   #   predict(irreg_fpca, newdata = data_irreg[1:2]))
 })
 
+test_that("modelr functions work like you'd expect", {
+  reg_fpca <- rfr_fpca("data_reg", df_reg)
+
+  expect_equivalent(
+    df_reg %>% modelr::add_predictions(reg_fpca) %>% pull(pred),
+    predict(reg_fpca, df_reg)
+  )
+})
