@@ -11,7 +11,7 @@ analyses.}
 \usage{
 rfr_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 
-\method{rfr_fpca}{tfb}(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
+\method{rfr_fpca}{tfb}(Y, data, pve = 0.99, npc = NULL, ...)
 
 \method{rfr_fpca}{tfd_irreg}(Y, data, pve = 0.99, npc = NULL, method = fpca_sc, ...)
 
