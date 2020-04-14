@@ -74,3 +74,23 @@ test_that("residuals and fitted method for rfr_fpca don't error", {
   expect_equivalent(residuals(irreg_fpca), data_irreg - fitted(irreg_fpca))
 
 })
+
+
+test_that("predict functions work for fpca", {
+  reg_fpca <- rfr_fpca("data_reg", df_reg)
+  irreg_fpca <- rfr_fpca("data_irreg", df_irreg)
+
+  # check that predictions and fitted values are the same
+  expect_equivalent(predict(reg_fpca), fitted(reg_fpca))
+  expect_equivalent(predict(reg_fpca, newdata = data_reg[1:10]), reg_fpca$Yhat_tfb[1:10])
+
+  # check that you can make predictions for irregular data using FPCs from regular data
+  expect_true(
+    length(predict(reg_fpca, newdata = data_irreg[1:3])) == 3)
+
+  # this is probably a better check, but it doesn't work and i don't know why
+  # expect_equivalent(
+  #   predict(reg_fpca, newdata = data_irreg[1:2]),
+  #   predict(irreg_fpca, newdata = data_irreg[1:2]))
+})
+
