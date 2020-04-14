@@ -7,6 +7,7 @@ extract_fpca <- function(tfb_fpc_obj){
   efunctions = attr(tfb_fpc_obj, "basis_matrix")
   evalues = attr(tfb_fpc_obj, "score_variance")
   npc = length(evalues)
+  error_var = attr(tfb_fpc_obj, "error_variance")
   scores = coefficients(tfb_fpc_obj) %>%
     lapply("[", -1) %>% #drop intercepts
     do.call("rbind", .)
@@ -17,9 +18,11 @@ extract_fpca <- function(tfb_fpc_obj){
     mu = efunctions[, 1],
     efunctions = efunctions[, -1],
     evalues = evalues,
-    npc = npc
+    npc = npc,
+    error_var = error_var
   )
   class(fpca_obj) <- c("fpca", "rfr_fpca")
   fpca_obj
 }
+
 

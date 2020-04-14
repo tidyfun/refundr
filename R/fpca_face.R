@@ -288,8 +288,9 @@ fpca_face <-function(data=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NUL
   mu <- meanX
   efunctions <- eigenvectors[,1:N]
   evalues <- J*eigenvalues[1:N]
+  error_var <- sigmahat2
 
-  ret.objects <- c("scores", "mu", "efunctions", "evalues", "npc")
+  ret.objects <- c("scores", "mu", "efunctions", "evalues", "npc", "error_var")
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
   class(ret) = "fpca"

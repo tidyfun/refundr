@@ -203,6 +203,7 @@ fpca_sc <- function(data,  Y.pred = NULL, argvals = NULL, random.int = FALSE,
   DIAG = (diag.G0 - diag(cov.hat))[T1.min:T1.max]  # function values
   w2 <- quadWeights(argvals[T1.min:T1.max], method = integration)
   sigma2 <- max(weighted.mean(DIAG, w = w2, na.rm = TRUE), 0)
+  error_var <- sigma2
 
   ####
   D.inv = diag(1/evalues, nrow = npc, ncol = npc)
@@ -212,10 +213,6 @@ fpca_sc <- function(data,  Y.pred = NULL, argvals = NULL, random.int = FALSE,
   rownames(Yhat) = rownames(Y.pred)
   colnames(Yhat) = colnames(Y.pred)
   scores = matrix(NA, nrow = I.pred, ncol = npc)
-  VarMats = vector("list", I.pred)
-  for (i in 1:I.pred) VarMats[[i]] = matrix(NA, nrow = D, ncol = D)
-  diag.var = matrix(NA, nrow = I.pred, ncol = D)
-  crit.val = rep(0, I.pred)
   for (i.subj in 1:I.pred) {
     obs.points = which(!is.na(Y.pred[i.subj, ]))
     if (sigma2 == 0 & length(obs.points) < npc)
@@ -226,7 +223,7 @@ fpca_sc <- function(data,  Y.pred = NULL, argvals = NULL, random.int = FALSE,
     Yhat[i.subj, ] = t(as.matrix(mu)) + scores[i.subj, ] %*% t(efunctions)
   }
 
-  ret.objects = c("mu", "efunctions", "scores", "npc", "evalues")
+  ret.objects = c("mu", "efunctions", "scores", "npc", "evalues", "error_var")
 
   ret = lapply(1:length(ret.objects), function(u) get(ret.objects[u]))
   names(ret) = ret.objects
