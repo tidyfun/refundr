@@ -1,5 +1,4 @@
 context("fpca")
-library(refunder)
 
 # generate synthetic data where we know the true eigenbasis:
 set.seed(1267575)
@@ -13,8 +12,10 @@ scores <- {
   raw <- svd(replicate(n, rnorm(npc)))
   t(scale(raw$v)) * sqrt(eigenvalues)
 }
+
 data_reg <- 1 + t(eigenfunctions %*% scores) %>% tfd
 data_irreg <- data_reg %>% tf_sparsify(dropout = .05)
+data_tfb <- data_reg %>% tfb
 
 df_reg <- tibble(
   data_reg = data_reg
@@ -23,6 +24,11 @@ df_reg <- tibble(
 df_irreg <- tibble(
   data_irreg = data_irreg
 )
+
+df_tfb <- tibble(
+  data_tfb = data_tfb
+)
+
 
 test_that("rfr_fpca defaults run on regular data", {
   expect_is(rfr_fpca("data_reg", df_reg), "rfr_fpca")
@@ -66,6 +72,18 @@ test_that("rfr_fpca defaults run on irregular data", {
 })
 
 
+test_that("rfr_fpca defaults run on tfb data", {
+  expect_is(rfr_fpca("data_tfb", df_tfb), "rfr_fpca")
+})
+
+
+test_that("rfr_fpca args are passed through", {
+  expect_equal(rfr_fpca("data_irreg", df_irreg, npc = 1)$npc, 1)
+  expect_equal(rfr_fpca("data_reg", df_reg)$method, "fpca_face")
+  expect_equal(rfr_fpca("data_reg", df_reg, method = fpca_sc)$method, "fpca_sc")
+})
+
+
 test_that("residuals and fitted method for rfr_fpca don't error", {
   reg_fpca <- rfr_fpca("data_reg", df_reg)
   irreg_fpca <- rfr_fpca("data_irreg", df_irreg)
@@ -82,11 +100,15 @@ test_that("predict functions work for fpca", {
 
   # check that predictions and fitted values are the same
   expect_equivalent(predict(reg_fpca), fitted(reg_fpca))
-  expect_equivalent(predict(reg_fpca, newdata = data_reg[1:10]), reg_fpca$Yhat_tfb[1:10])
+  expect_equivalent(predict(reg_fpca, newdata = df_reg[1:10,]), reg_fpca$Yhat_tfb[1:10])
+  expect_equivalent(predict(irreg_fpca, newdata = df_irreg[1:10,]), irreg_fpca$Yhat_tfb[1:10])
 
   # check that you can make predictions for irregular data using FPCs from regular data
-  expect_true(
-    length(predict(reg_fpca, newdata = data_irreg[1:3])) == 3)
+  expect_equivalent(
+    df_reg[1:10,] %>%
+      mutate(data_reg = tf_sparsify(data_reg, dropout = .05)) %>%
+      predict(reg_fpca, newdata = .),
+    reg_fpca$Yhat_tfb[1:10])
 
   # this is probably a better check, but it doesn't work and i don't know why
   # expect_equivalent(
