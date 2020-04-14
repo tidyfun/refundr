@@ -48,7 +48,10 @@ predict.rfr_fpca <- function(object, newdata, ...){
 
   ## include some data checks -- args for new data and fpc expansion, etc
 
-  Ypred = as.matrix(spread(as.data.frame(newdata), key = .data$arg, value = .data$value)[,-1])
+  model_var = object$model_var
+  new_tf = newdata[[model_var]]
+
+  Ypred = as.matrix(spread(as.data.frame(new_tf), key = .data$arg, value = .data$value)[,-1])
 
   new_scores = estimate_fpc_scores(object, Ypred)
 
