@@ -28,12 +28,24 @@ The `rfr_fpca()` function peforms `fpca` using functions from the
 Below are examples using the dti and chf datasets.
 
 ``` r
-
 library(refunder)
 
 # irregular data 
 data(dti_df)
 dti_fpca = rfr_fpca(Y = "cca", data = dti_df)
+
+dti_df %>% 
+  modelr::add_predictions(dti_fpca, var = "cca_fits") %>% 
+  filter(case == "control") %>% 
+  ggplot(aes(y = cca_fits)) + 
+  geom_spaghetti(alpha = .4) + 
+  geom_spaghetti(aes(y = cca), color = "blue", alpha = .3) + 
+  facet_grid(~sex)
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-2-1.png" width="90%" />
+
+``` r
 
 # regular data
 data(chf_df)
