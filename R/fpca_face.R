@@ -71,6 +71,7 @@
 #' @importFrom MASS mvrnorm
 #' @importFrom tidyr spread
 #' @importFrom rlang .data
+#' @export
 fpca_face <-function(data=NULL,Y.pred = NULL,argvals=NULL,pve = 0.99, npc  = NULL,
          center=TRUE,knots=35,p=3,m=2,lambda=NULL,alpha = 1,
          search.grid=TRUE,search.length=100,
