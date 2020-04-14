@@ -11,14 +11,11 @@ analyses.}
 \usage{
 rfr_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 
-\method{rfr_fpca}{tfb}(Y, data, pve = 0.99, npc = NULL,
-  method = NULL, ...)
+\method{rfr_fpca}{tfb}(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 
-\method{rfr_fpca}{tfd_irreg}(Y, data, pve = 0.99, npc = NULL,
-  method = fpca_sc, ...)
+\method{rfr_fpca}{tfd_irreg}(Y, data, pve = 0.99, npc = NULL, method = fpca_sc, ...)
 
-\method{rfr_fpca}{tfd_reg}(Y, data, pve = 0.99, npc = NULL,
-  method = fpca_face, ...)
+\method{rfr_fpca}{tfd_reg}(Y, data, pve = 0.99, npc = NULL, method = fpca_face, ...)
 }
 \arguments{
 \item{Y}{character value indicating name for a \code{tfd} data vector. Class \code{tfb} also supported.}

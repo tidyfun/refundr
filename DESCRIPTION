@@ -20,7 +20,7 @@ Remotes: github::tidyfun/tidyfun@dev
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests: 
     testthat, tibble
 Roxygen: list(markdown = TRUE)

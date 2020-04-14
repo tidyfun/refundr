@@ -4,10 +4,20 @@
 \alias{fpca_sc}
 \title{Functional principal components analysis by smoothed covariance}
 \usage{
-fpca_sc(data, Y.pred = NULL, argvals = NULL, random.int = FALSE,
-  nbasis = 10, pve = 0.99, npc = NULL, useSymm = FALSE,
-  makePD = FALSE, center = TRUE, cov.est.method = 2,
-  integration = "trapezoidal")
+fpca_sc(
+  data,
+  Y.pred = NULL,
+  argvals = NULL,
+  random.int = FALSE,
+  nbasis = 10,
+  pve = 0.99,
+  npc = NULL,
+  useSymm = FALSE,
+  makePD = FALSE,
+  center = TRUE,
+  cov.est.method = 2,
+  integration = "trapezoidal"
+)
 }
 \arguments{
 \item{data, }{a dataframe with arguments arg, value, id}

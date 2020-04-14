@@ -3,7 +3,6 @@
 \docType{package}
 \name{refunder}
 \alias{refunder}
-\alias{refunder-package}
 \title{refunder}
 \description{
 \code{refunder} makes functional data analyses

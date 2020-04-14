@@ -4,11 +4,25 @@
 \alias{fpca_face}
 \title{Functional principal component analysis with fast covariance estimation}
 \usage{
-fpca_face(data = NULL, Y.pred = NULL, argvals = NULL, pve = 0.99,
-  npc = NULL, center = TRUE, knots = 35, p = 3, m = 2,
-  lambda = NULL, alpha = 1, search.grid = TRUE,
-  search.length = 100, method = "L-BFGS-B", lower = -20,
-  upper = 20, control = NULL)
+fpca_face(
+  data = NULL,
+  Y.pred = NULL,
+  argvals = NULL,
+  pve = 0.99,
+  npc = NULL,
+  center = TRUE,
+  knots = 35,
+  p = 3,
+  m = 2,
+  lambda = NULL,
+  alpha = 1,
+  search.grid = TRUE,
+  search.length = 100,
+  method = "L-BFGS-B",
+  lower = -20,
+  upper = 20,
+  control = NULL
+)
 }
 \arguments{
 \item{data, }{the user must supply \code{data}, a matrix of functions

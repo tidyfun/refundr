@@ -4,10 +4,12 @@
 \alias{predict.rfr_fpca}
 \title{Prediction for functional principal component analysis}
 \usage{
-\method{predict}{rfr_fpca}(object, ...)
+\method{predict}{rfr_fpca}(object, newdata, ...)
 }
 \arguments{
-\item{object}{an \code{rf_fpca} object}
+\item{object}{an \code{rfr_fpca} object}
+
+\item{newdata}{An optional \code{tf} data vector. If omitted, the fitted values are returned.}
 
 \item{...}{optional arguments to be passed to methods}
 }
