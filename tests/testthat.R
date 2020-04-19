@@ -1,6 +1,6 @@
 library(testthat)
-library(refunder)
+library(refundr)
 library(tibble)
 library(tidyverse)
 
-test_check("refunder")
+test_check("refundr")
