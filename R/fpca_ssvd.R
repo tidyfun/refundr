@@ -89,9 +89,6 @@ fpca_ssvd <- function(Y=NULL, argvals = NULL, npc = NA, center = TRUE, maxiter =
 
   if(!is.numeric(npc)) stop("Invalid <npc>.")
   if(npc<1 | npc>min(m,n)) stop("Invalid <npc>.")
-  if(verbose){
-    cat("Using ", npc , "smooth components based on Gavish and Donoho (2014).\n")
-  }
 
   if(!is.numeric(alphagrid)) stop("Invalid <alphagrid>.")
   if(any(is.na(alphagrid)) | any(alphagrid<.Machine$double.eps)) stop("Invalid <alphagrid>.")

@@ -120,7 +120,7 @@ test_that("modelr functions work like you'd expect", {
   reg_fpca <- rfr_fpca("data_reg", df_reg)
 
   expect_equivalent(
-    df_reg %>% modelr::add_predictions(reg_fpca) %>% pull(pred),
+    df_reg %>% add_predictions(reg_fpca) %>% pull(pred),
     predict(reg_fpca, df_reg)
   )
 })
