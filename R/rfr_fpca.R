@@ -24,7 +24,7 @@
 ##'
 ##' @examples
 ##' \dontrun{
-##' library(refunder)
+##' library(refundr)
 ##' data(dti_df)
 ##' fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
 ##'

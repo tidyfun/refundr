@@ -1,4 +1,4 @@
-Package: refunder
+Package: refundr
 Type: Package
 Title: Tidier regression with functional data
 Version: 0.1.0

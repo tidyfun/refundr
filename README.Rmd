@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 library(tidyverse)
 library(tidyfun)
-library(refunder)
+library(refundr)
 library(viridisLite)
 
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
@@ -28,23 +28,23 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 
-library("refunder")
+library("refundr")
 
 ```
 
-# refunder
+# refundr
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/tidyfun/refunder.svg?branch=master)](https://travis-ci.org/tidyfun/refunder)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/tidyfun/refunder?branch=master&svg=true)](https://ci.appveyor.com/project/tidyfun/refunder)
+[![Travis build status](https://travis-ci.org/tidyfun/refundr.svg?branch=master)](https://travis-ci.org/tidyfun/refundr)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/tidyfun/refundr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyfun/refundr)
 <!-- badges: end -->
 
-The goal of **`refunder`** is to interface **`refund`** and **`tidyfun`**.
+The goal of **`refundr`** is to interface **`refund`** and **`tidyfun`**.
 
 ## Installation
 
 ``` r
-devtools::install_github("tidyfun/refunder")
+devtools::install_github("tidyfun/refundr")
 ```
 
 ## `rfr_fpca()`
@@ -55,7 +55,7 @@ Below are examples using the dti and chf datasets.
 
 
 ```{r}
-library(refunder)
+library(refundr)
 
 # irregular data 
 data(dti_df)
