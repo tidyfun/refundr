@@ -69,7 +69,7 @@ predict.rfr_fpca <- function(object, newdata, ...){
     resolution = attr(tfb_ob, "resolution"),
     score_variance = attr(tfb_ob, "score_variance"),
     error_variance = attr(tfb_ob, "error_variance"),
-    class = c("tfb_fpc", "tfb", "tf")
+    class = c("tfb_fpc", "tfb", "tf", "vctrs_vctr")
   )
 
 }
