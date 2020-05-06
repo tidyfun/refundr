@@ -1,23 +1,23 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# refunder
+# refundr
 
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.org/tidyfun/refunder.svg?branch=master)](https://travis-ci.org/tidyfun/refunder)
+status](https://travis-ci.org/tidyfun/refundr.svg?branch=master)](https://travis-ci.org/tidyfun/refundr)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/tidyfun/refunder?branch=master&svg=true)](https://ci.appveyor.com/project/tidyfun/refunder)
+status](https://ci.appveyor.com/api/projects/status/github/tidyfun/refundr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyfun/refundr)
 <!-- badges: end -->
 
-The goal of **`refunder`** is to interface **`refund`** and
+The goal of **`refundr`** is to interface **`refund`** and
 **`tidyfun`**.
 
 ## Installation
 
 ``` r
-devtools::install_github("tidyfun/refunder")
+devtools::install_github("tidyfun/refundr")
 ```
 
 ## `rfr_fpca()`
@@ -28,7 +28,10 @@ The `rfr_fpca()` function peforms `fpca` using functions from the
 Below are examples using the dti and chf datasets.
 
 ``` r
-library(refunder)
+
+library(refundr)
+library(tidyfun)
+library(tidyverse)
 
 # irregular data 
 data(dti_df)

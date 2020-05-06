@@ -55,7 +55,10 @@ Below are examples using the dti and chf datasets.
 
 
 ```{r}
+
 library(refundr)
+library(tidyfun)
+library(tidyverse)
 
 # irregular data 
 data(dti_df)
