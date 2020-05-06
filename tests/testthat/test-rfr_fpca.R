@@ -1,3 +1,6 @@
+library(tibble)
+library(tidyverse)
+
 context("fpca")
 
 # generate synthetic data where we know the true eigenbasis:
@@ -110,10 +113,17 @@ test_that("predict functions work for fpca", {
       predict(reg_fpca, newdata = .),
     reg_fpca$Yhat_tfb[1:10])
 
-  # this is probably a better check, but it doesn't work and i don't know why
-  # expect_equivalent(
-  #   predict(reg_fpca, newdata = data_irreg[1:2]),
-  #   predict(irreg_fpca, newdata = data_irreg[1:2]))
+  expect_equivalent(
+     tfd(predict(reg_fpca, newdata = df_irreg[1:2,] %>% rename(data_reg = data_irreg))),
+     tfd(predict(irreg_fpca, newdata = df_irreg[1:2,])),
+     tolerance = .01)
+
+  # predict breaks when you supply a df without the right column name
+  expect_error(
+    predict(reg_fpca, newdata = df_irreg[1:2,])
+  )
+
+  #
 })
 
 test_that("modelr functions work like you'd expect", {

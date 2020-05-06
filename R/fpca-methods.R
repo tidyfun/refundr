@@ -47,6 +47,7 @@ predict.rfr_fpca <- function(object, newdata, ...){
   }
 
   ## include some data checks -- args for new data and fpc expansion, etc
+  ## also that `model_var` is included in `newdata`
 
   model_var = object$model_var
   new_tf = newdata[[model_var]]
