@@ -18,7 +18,7 @@
 ##' @param ... optional arguments to be passed to FPCA algorithms. Takes arguments from
 ##'   original `refund` functions.
 ##' @return an object of class `fpca`, internal structure not yet fixed. Currently
-##' a list with a [tidyfun::tfb_fpc()] object and additional entries describingt the FPCA result
+##' a list with a [tidyfun::tfb_fpc()] object and additional entries describingt the FPCA results.
 ##'
 ##' @author Julia, Jeff, Fabian (plus any authors of the original refund code)
 ##'
