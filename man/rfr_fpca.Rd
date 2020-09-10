@@ -36,7 +36,7 @@ original \code{refund} functions.}
 }
 \value{
 an object of class \code{fpca}, internal structure not yet fixed. Currently
-a list with a \code{\link[tidyfun:tfb_fpc]{tidyfun::tfb_fpc()}} object and additional entries describingt the FPCA results.
+a list with a \code{\link[tidyfun:tfb_fpc]{tidyfun::tfb_fpc()}} object and additional entries describingt the FPCA result
 }
 \description{
 Tidy interface to \code{refund} FPCA functions
