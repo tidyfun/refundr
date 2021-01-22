@@ -134,3 +134,12 @@ test_that("modelr functions work like you'd expect", {
     predict(reg_fpca, df_reg)
   )
 })
+
+test_that("scores are extracted correctly", {
+  reg_fpca <- rfr_fpca("data_reg", df_reg)
+
+  expect_equivalent(
+    reg_fpca$scores,
+    as.matrix(extract_fpc_scores(reg_fpca))
+  )
+})

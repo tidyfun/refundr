@@ -26,3 +26,33 @@ extract_fpca <- function(tfb_fpc_obj){
 }
 
 
+#' Extract scores from an FPC object
+#'
+#' This function will extract FPC scores from an object produced by `rfr_fpca`, and return these scores in a data frame.
+#'
+#' @param rfr_fpca_obj object returned by `rfr_fpca`
+#'
+#' @return Data frame containing FPCA scores
+#'
+#' @examples
+#' library(refundr)
+#' library(tidyverse)
+#'
+#' data(dti_df)
+#' fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
+#' scores <- extract_fpc_scores(fpca_irregular)
+#'
+#' # this gets you scores on a "new" df -- kinda messy though ...
+#' predict(fpca_irregular, slice(dti_df, 1:10)) %>%
+#'   refundr:::extract_fpca() %>%
+#'   refundr:::extract_fpc_scores()
+#'
+extract_fpc_scores = function(rfr_fpca_obj){
+
+  score_mat = rfr_fpca_obj$scores
+
+  colnames(score_mat) = str_c(rfr_fpca_obj$model_var, 1:dim(score_mat)[2], sep = "_score_")
+
+  as_tibble(score_mat)
+
+}
