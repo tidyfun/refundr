@@ -57,10 +57,10 @@ objects are input and tidy objects are returned as well.
 \dontrun{
 library(refundr)
 data(dti_df)
-fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
+fpca_irregular <- rfr_fpca(Y = cca, data = dti_df)
 
 data(chf_df)
-fpca_regular <- rfr_fpca(Y = "activity", data = chf_df)
+fpca_regular <- rfr_fpca(Y = activity, data = chf_df)
 }
 
 }

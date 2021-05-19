@@ -8,9 +8,10 @@ extract_fpca <- function(tfb_fpc_obj){
   evalues = attr(tfb_fpc_obj, "score_variance")
   npc = length(evalues)
   error_var = attr(tfb_fpc_obj, "error_variance")
-  scores = coefficients(tfb_fpc_obj) %>%
-    lapply("[", -1) %>% #drop intercepts
-    do.call("rbind", .)
+
+  coef_list = coefficients(tfb_fpc_obj)
+  score_list = lapply(coef_list, "[", -1)  #drop intercepts
+  scores = do.call("rbind", score_list)
 
   fpca_obj <- list(
     Yhat_tfb = tfb_fpc_obj,
@@ -40,7 +41,7 @@ extract_fpca <- function(tfb_fpc_obj){
 #'
 #' data(dti_df)
 #' fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
-#' scores <- extract_fpc_scores(fpca_irregular)
+#' scores <- refundr:::extract_fpc_scores(fpca_irregular)
 #'
 #' # this gets you scores on a "new" df -- kinda messy though ...
 #' predict(fpca_irregular, slice(dti_df, 1:10)) %>%

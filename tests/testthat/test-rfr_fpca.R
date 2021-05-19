@@ -34,8 +34,8 @@ df_tfb <- tibble(
 
 
 test_that("rfr_fpca defaults run on regular data", {
-  expect_is(rfr_fpca("data_reg", df_reg), "rfr_fpca")
-  reg_fpca <- rfr_fpca("data_reg", df_reg)
+  expect_is(rfr_fpca(data_reg, df_reg), "rfr_fpca")
+  reg_fpca <- rfr_fpca(data_reg, df_reg)
 
   expect_equivalent(mean(data_reg) %>% tf_evaluations %>% unlist,
                     reg_fpca$mu,
@@ -55,8 +55,8 @@ test_that("rfr_fpca defaults run on regular data", {
 
 
 test_that("rfr_fpca defaults run on irregular data", {
-  expect_is(rfr_fpca("data_irreg", df_irreg), "rfr_fpca")
-  irreg_fpca <- rfr_fpca("data_irreg", df_irreg)
+  expect_is(rfr_fpca(data_irreg, df_irreg), "rfr_fpca")
+  irreg_fpca <- rfr_fpca(data_irreg, df_irreg)
 
   expect_equivalent(mean(data_irreg, na.rm = TRUE) %>% tf_evaluations %>% unlist,
                     irreg_fpca$mu,
@@ -76,7 +76,7 @@ test_that("rfr_fpca defaults run on irregular data", {
 
 
 test_that("rfr_fpca defaults run on tfb data", {
-  expect_is(rfr_fpca("data_tfb", df_tfb), "rfr_fpca")
+  expect_is(rfr_fpca(data_tfb, df_tfb), "rfr_fpca")
 })
 
 
@@ -130,7 +130,7 @@ test_that("modelr functions work like you'd expect", {
   reg_fpca <- rfr_fpca("data_reg", df_reg)
 
   expect_equivalent(
-    df_reg %>% add_predictions(reg_fpca) %>% pull(pred),
+    df_reg %>% modelr::add_predictions(reg_fpca) %>% pull(pred),
     predict(reg_fpca, df_reg)
   )
 })
@@ -140,6 +140,6 @@ test_that("scores are extracted correctly", {
 
   expect_equivalent(
     reg_fpca$scores,
-    as.matrix(extract_fpc_scores(reg_fpca))
+    as.matrix(refundr:::extract_fpc_scores(reg_fpca))
   )
 })

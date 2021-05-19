@@ -26,22 +26,26 @@
 ##' \dontrun{
 ##' library(refundr)
 ##' data(dti_df)
-##' fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
+##' fpca_irregular <- rfr_fpca(Y = cca, data = dti_df)
 ##'
 ##' data(chf_df)
-##' fpca_regular <- rfr_fpca(Y = "activity", data = chf_df)
+##' fpca_regular <- rfr_fpca(Y = activity, data = chf_df)
 ##' }
 ##'
 ##' @export
 ##' @import tidyfun
+##' @importFrom dplyr pull
+##' @importFrom rlang enquo `!!`
 rfr_fpca <- function(Y, data, pve = 0.99, npc = NULL, method = NULL, ...){
-  UseMethod("rfr_fpca", data[[Y]])
+  UseMethod("rfr_fpca", pull(data, !!enquo(Y)))
 }
 
 
 #' @rdname rfr_fpca
+#' @importFrom dplyr mutate
+#' @importFrom rlang `:=`
 #' @export
 rfr_fpca.tfb <- function(Y, data, pve = 0.99, npc = NULL, ...){
-  data[[Y]] <- tfd(data[[Y]])
-  rfr_fpca(Y = Y, data = data, pve = .99, npc = npc, ...)
+  data = mutate(data, !!enquo(Y) := tfd(!!enquo(Y)))
+  rfr_fpca(Y = !!enquo(Y), data = data, pve = .99, npc = npc, ...)
 }

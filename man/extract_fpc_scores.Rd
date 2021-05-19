@@ -17,7 +17,15 @@ This function will extract FPC scores from an object produced by \code{rfr_fpca}
 }
 \examples{
 library(refundr)
+library(tidyverse)
+
 data(dti_df)
 fpca_irregular <- rfr_fpca(Y = "cca", data = dti_df)
-scores <- extract_fpc_scores(fpca_irregular)
+scores <- refundr:::extract_fpc_scores(fpca_irregular)
+
+# this gets you scores on a "new" df -- kinda messy though ...
+predict(fpca_irregular, slice(dti_df, 1:10)) \%>\%
+  refundr:::extract_fpca() \%>\%
+  refundr:::extract_fpc_scores()
+
 }
