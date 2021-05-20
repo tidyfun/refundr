@@ -18,7 +18,8 @@ rfr_fpca(Y, data, pve = 0.99, npc = NULL, method = NULL, ...)
 \method{rfr_fpca}{tfd_reg}(Y, data, pve = 0.99, npc = NULL, method = fpca_face, ...)
 }
 \arguments{
-\item{Y}{character value indicating name for a \code{tfd} data vector. Class \code{tfb} also supported.}
+\item{Y}{Unquoted variable name for the \code{tf} data vector that will be decomposed
+using FPCA.}
 
 \item{data}{a \code{data.frame} containing the \code{Y} vector as a column.}
 

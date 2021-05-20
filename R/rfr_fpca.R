@@ -7,7 +7,8 @@
 ##' @title rfr_fpca Generic function for functional principal component
 ##'   analyses.
 ##'
-##' @param Y character value indicating name for a `tfd` data vector. Class `tfb` also supported.
+##' @param Y Unquoted variable name for the `tf` data vector that will be decomposed
+##' using FPCA.
 ##' @param data a `data.frame` containing the `Y` vector as a column.
 ##' @param pve proportion of variance explained: used to choose the number of
 ##'   principal components.

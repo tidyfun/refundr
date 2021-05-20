@@ -20,7 +20,8 @@ fpca_sc(
 )
 }
 \arguments{
-\item{data, }{a dataframe with arguments arg, value, id}
+\item{data}{a \code{tf} vector containing the functions to decompose using FPCA.
+Alternatively, a dataframe with arguments arg, value, id.}
 
 \item{Y.pred}{if desired, a matrix of functions to be approximated using
 the FPC decomposition.}

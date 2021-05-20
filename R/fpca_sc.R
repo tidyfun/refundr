@@ -14,7 +14,8 @@
 ##' `fpca.sc` uses penalized splines to smooth the covariance function, as
 ##' developed by Di et al. (2009) and Goldsmith et al. (2013).
 ##'
-##' @param data, a dataframe with arguments arg, value, id
+##' @param data a `tf` vector containing the functions to decompose using FPCA.
+##' Alternatively, a dataframe with arguments arg, value, id.
 ##' @param Y.pred if desired, a matrix of functions to be approximated using
 ##' the FPC decomposition.
 ##' @param argvals the argument values of the function evaluations in `data`,

@@ -25,8 +25,9 @@ fpca_face(
 )
 }
 \arguments{
-\item{data, }{the user must supply \code{data}, a matrix of functions
-observed on a regular grid}
+\item{data}{a \code{tf} vector containing the functions to decompose using FPCA.
+Alternatively, a dataframe with arguments arg, value, id. In either case, data
+must be observed over a regular grid.}
 
 \item{Y.pred}{if desired, a matrix of functions to be approximated using
 the FPC decomposition.}

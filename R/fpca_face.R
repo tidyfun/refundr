@@ -3,8 +3,9 @@
 #' A fast implementation of the sandwich smoother (Xiao et al., 2013)
 #' for covariance matrix smoothing. Pooled generalized cross validation
 #' at the data level is used for selecting the smoothing parameter.
-#' @param data, the user must supply `data`, a matrix of functions
-#' observed on a regular grid
+#' @param data a `tf` vector containing the functions to decompose using FPCA.
+#' Alternatively, a dataframe with arguments arg, value, id. In either case, data
+#' must be observed over a regular grid.
 #' @param Y.pred if desired, a matrix of functions to be approximated using
 #' the FPC decomposition.
 #' @param argvals numeric; function argument.
